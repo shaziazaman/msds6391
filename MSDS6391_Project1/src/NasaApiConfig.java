@@ -2,6 +2,8 @@
 public class NasaApiConfig {
 	String apiKey = "?api_key=9Ihs7mZs2OkFpVeNHaRF76mnDZ02lOSZoe2NIeeh";
 	String apiBaseUrl = "https://api.nasa.gov/EPIC/api/natural/images";
+	String apiDateUrl = "https://api.nasa.gov/EPIC/api/natural/date/";
+	String apiAllDatesUrl = "https://api.nasa.gov/EPIC/api/natural/all";
 	String imageType = "natural";
 	String imageFileType = "png";
 	String imageFileName = "epic_1b_20170510190006_02";
@@ -14,10 +16,22 @@ public class NasaApiConfig {
 		super();
 	}
 	
+	// This method will be used to get all the available dates when images are captured
+	public String getAllAvailableDates() {
+		return apiAllDatesUrl + apiKey;
+	}
+	
 	// This method will be used to generate apiURL to retrieve information about
 	// lated images of Earth being captured by NASA
 	public String getDerivedApiURL() {
 		return apiBaseUrl + apiKey;
+	}
+	
+	// Method overloading for getDerivedApiURL with extra parameter
+	// This method will be used to generate apiURL to retrieve information about
+	// images of Earth being captured by NASA being captured on requested date 
+	public String getDerivedApiURL(String dateString) {
+			return apiDateUrl + dateString + apiKey;
 	}
 	
 	// This method will be used to generate image URL based on the class data members

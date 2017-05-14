@@ -38,9 +38,21 @@ public class PlanetDemo extends PApplet {
 
 	@Override
 	public void setup() {
-		// retrieve the information about latest images of earth captured by NASA
-		// the result will be saved as JSONArray
-		JSONArray jsonList = loadJSONArray(nasaApiConfig.getDerivedApiURL());
+				// initialize jsonList as NULL
+		JSONArray jsonList = null;
+		
+		// if date has been passed as application argument
+		// then use the request date to retrieve images
+		if(this.args != null && this.args.length > 0) {
+			// retrieve the information about images of earth captured by NASA for a request date
+			// the result will be saved as JSONArray
+			String requestedDateString = this.args[0];
+			jsonList = loadJSONArray(nasaApiConfig.getDerivedApiURL(requestedDateString));
+		} else {
+			// retrieve the information about latest images of earth captured by NASA
+			// the result will be saved as JSONArray
+			jsonList = loadJSONArray(nasaApiConfig.getDerivedApiURL());
+		}
 		// print the response received from call to NASA API
 		System.out.println(jsonList.toString());
 		// iterate through JSONArray to get information about each image
@@ -60,6 +72,9 @@ public class PlanetDemo extends PApplet {
 			imageList.add(img);
 		}
 		
+		//Get information of all available dates of images to use for specific date request
+		JSONArray imageDateList = loadJSONArray(nasaApiConfig.getAllAvailableDates());
+		System.out.println("All available dates: " + imageDateList.toString());
 	}
 	
 	@Override
