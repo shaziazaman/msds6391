@@ -66,10 +66,12 @@ public class PlanetDemo extends PApplet {
 			PImage img = loadImage(nasaApiConfig.getDerivedImageURL(imageDateString, imageName), nasaApiConfig.imageFileType);
 			// print the link being used to retrieve image from NASA
 			System.out.println("Image link: " + nasaApiConfig.getDerivedImageURL());
+			// cropped the image for the planet Earth only
+			PImage croppedimg = cropImageCircle(img,1000,1000,1500);
 			// Resize the image to fit in display window
-			img.resize(width, height);
+			croppedimg.resize(2*width/3,2*height/3);
 			// Add the image to image List, it will be used later to display image
-			imageList.add(img);
+			imageList.add(croppedimg);
 		}
 		
 		//Get information of all available dates of images to use for specific date request
@@ -80,7 +82,7 @@ public class PlanetDemo extends PApplet {
 	@Override
 	public void draw() {
 		// iterate over image list to display new image every time
-		image(imageList.get(imageIndex), 0, 0);
+		image(imageList.get(imageIndex), width/6, height/6);
 		// increase the imageIndex to retrieve new image next time in draw
 		imageIndex = imageIndex + 1;
 		// if imageIndex exceed the size of image List 
@@ -91,5 +93,34 @@ public class PlanetDemo extends PApplet {
 		// add delay for 250 millisecond to redraw the window
 		delay(250);
 	}
+	
+	PImage cropImageCircle(final PImage inputImg, final int cx, final int cy, int diam) {
+		  final int rad = (diam = abs(diam))>>1, radSq = rad*rad;
+		 
+		  final int[] p = inputImg.pixels;
+		  final int w = inputImg.width, h = inputImg.height;
+		  //final int cx = w>>1, cy = h>>1;
+		 
+		  final PImage outputImg = createImage(diam, diam, ARGB);
+		  final int[] q = outputImg.pixels;
+		 
+		  final int minX = max(cx - rad, 0);
+		  final int maxX = min(cx + rad, w);
+		 
+		  final int minY = max(cy - rad, 0);
+		  final int maxY = min(cy + rad, h);
+		 
+		  for (int y = minY; y < maxY;) {
+		    final float cySq = sq(cy - y);
+		    final int rw1 = w*y, rw2 = diam*(y++ - minY);
+		 
+		    for (int x = minX; x < maxX; x++)
+		      if (sq(cx - x) + cySq <= radSq)  q[rw2 + x - minX] = p[rw1 + x];
+		  }
+		 
+		  outputImg.updatePixels();
+		  return outputImg;
+		}
+
 
 }
