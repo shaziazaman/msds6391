@@ -19,12 +19,11 @@ void setup() {
   size(3500,8000);
   img = loadImage(imageUrl);
   croppedimg = cropImageCircle(img,1000,1000,1500);
-  image(croppedimg,0,0);
-  
+  croppedimg.resize(2*width/3,2*height/3);
 }
 
 void draw() {
-
+  image(croppedimg,width/6,height/6);
 }
 
 void mousePressed() {
