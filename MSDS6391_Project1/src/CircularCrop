@@ -1,0 +1,84 @@
+/**
+ * Crop Round Image (v2.0)
+ * by GoToLoop (2014/Jun)
+ *
+ * forum.Processing.org/two/discussion/5618/crop-image#Item_26
+ */
+ 
+static final String URL = "https://" + "upload.wikimedia.org/";
+static final String FOLDER = "wikipedia/en/c/ca/";
+static final String FILE = "Luigi_vacuum", EXT = ".jpg";
+ 
+static final int MARGIN_X = 050, STEP = 8, FPS = 30;
+static final color BG = 0100;
+ 
+PImage rectImg, roundImg;
+int iw, ih, marginY, diam = 0400;
+ 
+void setup() {
+  size(900, 700, JAVA2D);
+  noLoop();
+  frameRate(FPS);
+  smooth(4);
+  imageMode(CORNER);
+ 
+  //rectImg = loadImage(FILE + EXT);
+  rectImg = loadImage(URL + FOLDER + FILE + EXT);
+ 
+  iw = rectImg.width;
+  ih = rectImg.height;
+  marginY = height-ih >> 1;
+ 
+  //roundImg = cropImageCircle(rectImg, diam);
+  roundImg = cropImageCircle(rectImg, iw>>1, ih>>1, diam);
+ 
+  println("Original Image Dimensions: " + iw + ", " + ih);
+  println("Rounded  Image Dimensions: " + roundImg.width + ", " + roundImg.height);
+}
+ 
+void draw() {
+  background(BG);
+  set(MARGIN_X, marginY, rectImg);
+  image(roundImg, width-roundImg.width-MARGIN_X, height-roundImg.height >> 1);
+}
+ 
+void mouseMoved() {
+  roundImg = cropImageCircle(rectImg, mouseX-MARGIN_X, mouseY-marginY, diam);
+  redraw();
+}
+ 
+void mouseWheel(final MouseEvent e) {
+  final int inc = keyPressed & keyCode == CONTROL ? -1 : -STEP;
+  diam = constrain(diam + e.getCount()*inc, 0, abs(iw - ih)<<1);
+  print(diam + "\t");
+  mouseMoved();
+}
+ 
+//PImage cropImageCircle(final PImage inputImg, int diam) {
+PImage cropImageCircle(final PImage inputImg, final int cx, final int cy, int diam) {
+  final int rad = (diam = abs(diam))>>1, radSq = rad*rad;
+ 
+  final color[] p = inputImg.pixels;
+  final int w = inputImg.width, h = inputImg.height;
+  //final int cx = w>>1, cy = h>>1;
+ 
+  final PImage outputImg = createImage(diam, diam, ARGB);
+  final color[] q = outputImg.pixels;
+ 
+  final int minX = max(cx - rad, 0);
+  final int maxX = min(cx + rad, w);
+ 
+  final int minY = max(cy - rad, 0);
+  final int maxY = min(cy + rad, h);
+ 
+  for (int y = minY; y < maxY;) {
+    final float cySq = sq(cy - y);
+    final int rw1 = w*y, rw2 = diam*(y++ - minY);
+ 
+    for (int x = minX; x < maxX; x++)
+      if (sq(cx - x) + cySq <= radSq)  q[rw2 + x - minX] = p[rw1 + x];
+  }
+ 
+  outputImg.updatePixels();
+  return outputImg;
+}
