@@ -1,3 +1,5 @@
+// Developement Team: Rosa Elena Lorenzana, Shazia Zaman
+
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -96,7 +98,7 @@ public class PlanetDemo extends PApplet {
 	
 	PImage cropImageCircle(final PImage inputImg, final int cx, final int cy, int diam) {
 		  final int rad = (diam = abs(diam))>>1, radSq = rad*rad;
-		 
+		  
 		  final int[] p = inputImg.pixels;
 		  final int w = inputImg.width, h = inputImg.height;
 		  //final int cx = w>>1, cy = h>>1;
