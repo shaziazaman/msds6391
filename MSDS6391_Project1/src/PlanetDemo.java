@@ -69,7 +69,7 @@ public class PlanetDemo extends PApplet {
 			// print the link being used to retrieve image from NASA
 			System.out.println("Image link: " + nasaApiConfig.getDerivedImageURL());
 			// cropped the image for the planet Earth only
-			PImage croppedimg = cropImageCircle(img,1000,1000,1500);
+			PImage croppedimg = cropImageCircle(img,1024,1024,1500);
 			// Resize the image to fit in display window
 			croppedimg.resize(2*width/3,2*height/3);
 			// Add the image to image List, it will be used later to display image
@@ -97,8 +97,8 @@ public class PlanetDemo extends PApplet {
 	}
 	
 	PImage cropImageCircle(final PImage inputImg, final int cx, final int cy, int diam) {
-		  final int rad = (diam = abs(diam))>>1, radSq = rad*rad;
-		  
+		  //final int rad = (diam = abs(diam))>>1, radSq = rad*rad;
+		  final int rad = diam/2, radSq = rad*rad;
 		  final int[] p = inputImg.pixels;
 		  final int w = inputImg.width, h = inputImg.height;
 		  //final int cx = w>>1, cy = h>>1;
