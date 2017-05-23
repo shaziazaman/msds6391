@@ -30,3 +30,7 @@ nav a{
 h3 {
 	color: #0000ff;
 }
+img.resize {
+	max-width: 75%;
+	max-height:75%
+}
