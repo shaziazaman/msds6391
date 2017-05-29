@@ -1,0 +1,41 @@
+@CHARSET "UTF-8";
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+header, footer {
+	width: 100%;
+	position: fixed;
+	background: #8080ff;
+	padding: 10px 0;
+	color: #400040;
+	display: block;
+}
+header{
+	top: 0;
+}
+footer{
+	bottom: 0;
+}
+section{
+	width: 80%;
+	margin: 0 auto;
+}
+nav a{
+	color: #400040;
+	text-decoration: none;
+	padding: 7px 25px;
+	display: inline-block;
+}
+h3 {
+	color: #0000ff;
+}
+img.resize {
+	max-width: 75%;
+	max-height:75%
+}
+
+img.resize-small {
+	max-width: 50%;
+	max-height:50%
+}
