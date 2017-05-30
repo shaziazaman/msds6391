@@ -35,8 +35,6 @@ function draw()
   drawPetalAttachment(xForCenter,yForCenter,angleToDraw+0,diameter/2);
   drawPetalAttachment(xForCenter,yForCenter,angleToDraw+90,diameter/2);
   drawPetalAttachment(xForCenter,yForCenter,angleToDraw+180,diameter/2);
-  loop();
-  delay(80);
 }
 
 function drawStand(startX, startY, Length, topWidth)
