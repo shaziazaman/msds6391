@@ -8,12 +8,33 @@
 <script type="text/javascript" src="js/weather.js"></script>
 <title>Weather Forecast using JavaScript</title>
 </head>
+
+<style>
+    table, tr,td {
+     border: 1px solid black;
+     width:200px;
+    }
+
+    tr, td {
+     text-align: left;
+     padding: 8px;
+     width: 100px;
+    }
+ tr:nth-child(even){background-color: #f2f2f2}
+   th {
+    background-color: #4CAF50;
+    color: white;
+   }
+  </style>
+	
 <body>
 	<div id="header">
 		<script type="text/javascript">
 			createHeader()
 		</script>
 	</div>
+	
+ 
 	<section>
 		<h3>Weather Forecast using JavaScript</h3>
 		<FORM NAME="cityWeatherForm" ACTION="" METHOD="POST">
@@ -23,6 +44,12 @@
 		</FORM>
 		<table>
 			<tbody>
+			
+			    <tr>
+				  <th>City </th>
+                  <th>Name </th>
+				</tr>
+				
 				<tr>
 					<td>City</td>
 					<td id='city'></td>
@@ -34,7 +61,53 @@
 				<tr>
 					<td>Longitude</td>
 					<td id='lon'></td>
-				</tr>			
+				</tr>	
+				
+				<tr>
+					<td>Temperature</td>
+					<td id='temp'></td>
+				</tr>	
+				
+				<tr>
+					<td>Pressure</td>
+					<td id='pressure'></td>
+				</tr>	
+				
+				<tr>
+					<td>Humidity</td>
+					<td id='humidity'></td>
+				</tr>	
+				
+				<tr>
+					<td> Min Temperature</td>
+					<td id='temp_min'></td>
+				</tr>	
+				
+				<tr>
+					<td>Max Temperature</td>
+					<td id='tem_max'></td>
+				</tr>	
+				
+				<tr>
+					<td>Wind Speed</td>
+					<td id='wind_speed'></td>
+				</tr>	
+				
+				<tr>
+					<td>Wind Degree</td>
+					<td id='wind_degree'></td>
+				</tr>	
+				
+				<tr>
+					<td>Sunrise</td>
+					<td id='sunrise'></td>
+				</tr>	
+				
+				<tr>
+					<td>Sunset</td>
+					<td id='sunset'></td>
+				</tr>				
+						
 			</tbody>
 		</table>
 	</section>
