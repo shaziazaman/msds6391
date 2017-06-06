@@ -40,3 +40,34 @@ img.resize-small {
 	max-width: 50%;
 	max-height:50%
 }
+
+.leftpane{
+    width: 15%;
+    min-width: 250px;
+    height: available;
+    min-height: 400px;
+    float: left;
+    border-collapse: collapse;
+}
+
+.middlepane{
+   width: 15%;
+   min-width: 250px;
+   height: available;
+   min-height: 400px;
+   float: left;
+   background-color: #ff8000;
+   border-collapse: collapse;
+}
+
+.rightpane{
+    width: available;
+    height: available;
+    position: relative;
+    margin-left: 50%;
+    background-color: #80ff80;
+    border-collapse: collapse;
+}
+canvas {
+	border:1px solid #d3d3d3;
+}

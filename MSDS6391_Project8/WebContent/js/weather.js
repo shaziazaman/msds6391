@@ -3,6 +3,7 @@
  */
 
 var apiid = '0b55e5f12b5583816c9356d808f18249'
+var mapapiid = 'AIzaSyDcbIf1hGXMTXaAFzSEGz8CHL6zlUs_h9k';
 var city = '';
 var lat = 0;
 var lon = 0;
@@ -39,13 +40,13 @@ function gettingJSON(cityName, unitSelected){
 	country = json.sys.country;
 	
 	refreshValuesOnPage();
+	showThermometer();
+	showMap();
 })
 }
 
 function refreshValuesOnPage() {
 	document.getElementById("city").innerHTML = city;
-	document.getElementById("lat").innerHTML = lat;
-	document.getElementById("lon").innerHTML = lon;
 	document.getElementById("temp").innerHTML = temp;
 	document.getElementById("pressure").innerHTML = pressure;
 	document.getElementById("humidity").innerHTML = humidity;
@@ -55,4 +56,19 @@ function refreshValuesOnPage() {
 	document.getElementById("wind_degree").innerHTML = wind_degree;
 	document.getElementById("sunrise").innerHTML = sunrise;
 	document.getElementById("sunset").innerHTML = sunset;
+}
+
+function showThermometer() {
+	var c = document.getElementById("thermocanvas");
+	var ctx = c.getContext("2d");
+	ctx.rect(95, 20, 50, 290);
+	ctx.stroke();
+}
+
+function showMap() {
+    var latlon = lat + "," + lon;
+
+    var img_url = 'https://maps.googleapis.com/maps/api/staticmap?center='+latlon+'&zoom=14&size=300x250&sensor=false&key=' + mapapiid;
+
+    document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
 }
