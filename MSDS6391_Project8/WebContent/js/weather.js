@@ -18,9 +18,11 @@ var wind_degree = 0;
 var sunrise = 0;
 var sunset = 0;
 var country = '';
-function gettingJSON(cityName){
+var units = 'default'
+function gettingJSON(cityName, unitSelected){
 	city = cityName;
-	$.getJSON('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + apiid,function(json){
+	units = unitSelected;
+	$.getJSON('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=' + units +'&appid=' + apiid,function(json){
 	city = json.name;
 	lat = json.coord.lat;
 	lon = json.coord.lon;

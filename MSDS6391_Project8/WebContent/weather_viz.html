@@ -38,7 +38,11 @@
 		<FORM NAME="cityWeatherForm" ACTION="" METHOD="POST">
 			Enter City to get weather information:&nbsp;&nbsp;
 			<INPUT TYPE="text" NAME="cityInput" VALUE="London">&nbsp;&nbsp;
-			<INPUT TYPE="button" NAME="button" Value="Click" onClick="gettingJSON(cityInput.value)">
+			Units: <select Name="units" id="units" autofocus>
+			<option value="metric" selected>Celcius</option>
+			<option value="imperial">Farenheit</option>
+			</select>&nbsp;&nbsp;
+			<INPUT TYPE="button" NAME="button" Value="Click" onClick="gettingJSON(cityInput.value, units.options[units.selectedIndex].value)">
 		</FORM><br>
 		<table>
 			<tbody>
