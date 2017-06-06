@@ -2,34 +2,12 @@
 <html>
 <head>
 <link rel="stylesheet" href="styles.css">
+<script type="text/javascript" src="libraries/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/header.js"></script>
 <script type="text/javascript" src="js/footer.js"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="js/weather.js"></script>
 <title>Weather Forecast using JavaScript</title>
 </head>
-
-<style>
-table, tr, td {
-	border: 1px solid black;
-	width: 200px;
-}
-
-tr, td {
-	text-align: left;
-	padding: 8px;
-	width: 100px;
-}
-
-tr:nth-child(even) {
-	background-color: #f2f2f2
-}
-
-th {
-	background-color: #4CAF50;
-	color: white;
-}
-</style>
 
 <body>
 	<div id="header">
@@ -113,7 +91,7 @@ th {
 			</div>
 			<div class="middlepane">
 				<h4>Thermometer</h4>
-				<canvas id="thermocanvas" width="245" height="350"></canvas>
+				<canvas id="canvas" width="245" height="350"></canvas>
 			</div>
 			<div class="rightpane">
 			<h4>Geo Location</h4>

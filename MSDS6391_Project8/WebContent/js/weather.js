@@ -59,7 +59,7 @@ function refreshValuesOnPage() {
 }
 
 function showThermometer() {
-	var c = document.getElementById("thermocanvas");
+	var c = document.getElementById("canvas");
 	var ctx = c.getContext("2d");
 	ctx.rect(95, 20, 50, 290);
 	ctx.stroke();
