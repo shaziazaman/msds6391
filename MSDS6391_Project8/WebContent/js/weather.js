@@ -44,4 +44,13 @@ function refreshValuesOnPage() {
 	document.getElementById("city").innerHTML = city;
 	document.getElementById("lat").innerHTML = lat;
 	document.getElementById("lon").innerHTML = lon;
+	document.getElementById("temp").innerHTML = temp;
+	document.getElementById("pressure").innerHTML = pressure;
+	document.getElementById("humidity").innerHTML = humidity;
+	document.getElementById("temp_min").innerHTML = temp_min;
+	document.getElementById("temp_max").innerHTML = temp_max;
+	document.getElementById("wind_speed").innerHTML = wind_speed;
+	document.getElementById("wind_degree").innerHTML = wind_degree;
+	document.getElementById("sunrise").innerHTML = sunrise;
+	document.getElementById("sunset").innerHTML = sunset;
 }

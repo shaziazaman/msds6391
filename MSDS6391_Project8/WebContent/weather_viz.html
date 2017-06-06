@@ -33,21 +33,19 @@
 			createHeader()
 		</script>
 	</div>
-	
- 
 	<section>
 		<h3>Weather Forecast using JavaScript</h3>
 		<FORM NAME="cityWeatherForm" ACTION="" METHOD="POST">
-			Enter City to get weather information: <BR>
-			<INPUT TYPE="text" NAME="cityInput" VALUE="London"><P>
+			Enter City to get weather information:&nbsp;&nbsp;
+			<INPUT TYPE="text" NAME="cityInput" VALUE="London">&nbsp;&nbsp;
 			<INPUT TYPE="button" NAME="button" Value="Click" onClick="gettingJSON(cityInput.value)">
-		</FORM>
+		</FORM><br>
 		<table>
 			<tbody>
 			
 			    <tr>
-				  <th>City </th>
-                  <th>Name </th>
+				  <th>Type</th>
+                  <th>Value</th>
 				</tr>
 				
 				<tr>
@@ -85,7 +83,7 @@
 				
 				<tr>
 					<td>Max Temperature</td>
-					<td id='tem_max'></td>
+					<td id='temp_max'></td>
 				</tr>	
 				
 				<tr>
