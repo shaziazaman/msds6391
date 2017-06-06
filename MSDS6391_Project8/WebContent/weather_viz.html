@@ -16,22 +16,24 @@
 	</div>
 	<section>
 		<h3>Weather Forecast using JavaScript</h3>
-		<script type="text/javascript">
-			gettingJSON()
-		</script>
+		<FORM NAME="cityWeatherForm" ACTION="" METHOD="POST">
+			Enter City to get weather information: <BR>
+			<INPUT TYPE="text" NAME="cityInput" VALUE="London"><P>
+			<INPUT TYPE="button" NAME="button" Value="Click" onClick="gettingJSON(cityInput.value)">
+		</FORM>
 		<table>
 			<tbody>
 				<tr>
 					<td>City</td>
-					<td><script type="text/javascript">city</script></td>
+					<td id='city'></td>
 				</tr>
 				<tr>
 					<td>Latitude</td>
-					<td><script type="text/javascript">lat</script></td>
+					<td id='lat'></td>
 				</tr>				
 				<tr>
 					<td>Longitude</td>
-					<td><script type="text/javascript">lon</script></td>
+					<td id='lon'></td>
 				</tr>			
 			</tbody>
 		</table>

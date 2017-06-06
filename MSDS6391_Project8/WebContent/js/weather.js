@@ -18,9 +18,9 @@ var wind_degree = 0;
 var sunrise = 0;
 var sunset = 0;
 var country = '';
-function gettingJSON(){
-	document.write("jquery loaded");
-	$.getJSON('http://api.openweathermap.org/data/2.5/weather?q=London&appid=' + apiid,function(json){
+function gettingJSON(cityName){
+	city = cityName;
+	$.getJSON('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + apiid,function(json){
 	city = json.name;
 	lat = json.coord.lat;
 	lon = json.coord.lon;
@@ -35,5 +35,13 @@ function gettingJSON(){
 	sunrise = json.sys.sunrise;
 	sunset = json.sys.sunset;
 	country = json.sys.country;
+	
+	refreshValuesOnPage();
 })
+}
+
+function refreshValuesOnPage() {
+	document.getElementById("city").innerHTML = city;
+	document.getElementById("lat").innerHTML = lat;
+	document.getElementById("lon").innerHTML = lon;
 }
