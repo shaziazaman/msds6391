@@ -3,7 +3,9 @@
  */
 
 var apiid = '0b55e5f12b5583816c9356d808f18249'
-var mapapiid = 'AIzaSyDcbIf1hGXMTXaAFzSEGz8CHL6zlUs_h9k';
+/* var mapapiid = 'AIzaSyDcbIf1hGXMTXaAFzSEGz8CHL6zlUs_h9k'; */
+var mapapiid = 'AIzaSyBsJmm8GAuulHcRxYk3X3E5ZYWXObQvEWU';
+
 var city = '';
 var lat = 0;
 var lon = 0;
@@ -68,7 +70,7 @@ function showThermometer() {
 function showMap() {
     var latlon = lat + "," + lon;
 
-    var img_url = 'https://maps.googleapis.com/maps/api/staticmap?center='+latlon+'&zoom=14&size=300x250&sensor=false&key=' + mapapiid;
+    var img_url = 'https://maps.googleapis.com/maps/api/staticmap?center='+latlon+'&zoom=14&size=590x440&sensor=false&key=' + mapapiid;
 
     document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
 }
