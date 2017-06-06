@@ -84,7 +84,6 @@ th {
     height: available;
     position: relative;
     margin-left: 50%;
-    background-color: #80ff80;
     border-collapse: collapse;
 }
 canvas {
