@@ -70,8 +70,8 @@ th {
 }
 
 .middlepane{
-   width: 15%;
-   min-width: 250px;
+   width: 10%;
+   min-width: 160px;
    height: available;
    min-height: 400px;
    float: left;
@@ -87,5 +87,6 @@ th {
     border-collapse: collapse;
 }
 canvas {
-	border:1px solid #d3d3d3;
+	margin: 0;
+    padding-left: 20px;
 }

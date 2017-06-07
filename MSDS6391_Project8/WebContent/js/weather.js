@@ -21,7 +21,8 @@ var wind_degree = 0;
 var sunrise = 0;
 var sunset = 0;
 var country = '';
-var units = 'default'
+var units = 'imperial'
+var temp_scale = 'Fahrenheit'
 function gettingJSON(cityName, unitSelected){
 	city = cityName;
 	units = unitSelected;
@@ -40,6 +41,13 @@ function gettingJSON(cityName, unitSelected){
 	sunrise = json.sys.sunrise;
 	sunset = json.sys.sunset;
 	country = json.sys.country;
+	
+	if(units == 'imperial') {
+		temp_scale = 'Fahrenheit'
+	}
+	else if (units == 'metric') {
+		temp_scale = 'Celsius'
+	}
 	
 	refreshValuesOnPage();
 	showThermometer();
@@ -61,16 +69,44 @@ function refreshValuesOnPage() {
 }
 
 function showThermometer() {
-	var c = document.getElementById("canvas");
-	var ctx = c.getContext("2d");
-	ctx.rect(95, 20, 50, 290);
-	ctx.stroke();
+	var cvx = document.getElementById("thermocanvas");
+	var ctx = cvx.getContext("2d");
+
+
+	ctx.clearRect(0, 0, cvx.width, cvx.height);
+
+	var thermometer = new RGraph.Thermometer({
+        id: 'thermocanvas',
+        min: -14,
+        max: 120,
+        value: temp,
+        valueLabelDecimals: 2,
+        options: {
+            gutterLeft: 25,
+            gutterRight: 25,
+            colors: ['rgba(255,0,0,1)'],
+            bulbBottomRadius: 40,
+            titleSide: temp_scale
+        }
+        
+    });
+	thermometer.draw();
+	
 }
 
 function showMap() {
     var latlon = lat + "," + lon;
 
-    var img_url = 'https://maps.googleapis.com/maps/api/staticmap?center='+latlon+'&zoom=14&size=590x440&sensor=false&key=' + mapapiid;
+    var img_url = 'https://maps.googleapis.com/maps/api/staticmap?center='+latlon+'&zoom=12&size=490x340&sensor=false&key=' + mapapiid;
 
     document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
+}
+
+function getFormattedTime(timeInMilleseconds) {
+	var d = new Date(timeInMilleseconds);
+	return d.toUTCString();
+}
+
+window.onload = function () {
+	showThermometer();
 }
