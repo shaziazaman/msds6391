@@ -71,16 +71,13 @@ function refreshValuesOnPage() {
 function showThermometer() {
 	var cvx = document.getElementById("thermocanvas");
 	var ctx = cvx.getContext("2d");
-
-
 	ctx.clearRect(0, 0, cvx.width, cvx.height);
-
+	RGraph.reset(cvx);
 	var thermometer = new RGraph.Thermometer({
         id: 'thermocanvas',
         min: -14,
         max: 120,
         value: temp,
-        valueLabelDecimals: 2,
         options: {
             gutterLeft: 25,
             gutterRight: 25,
@@ -89,9 +86,7 @@ function showThermometer() {
             titleSide: temp_scale
         }
         
-    });
-	thermometer.draw();
-	
+    }).draw();
 }
 
 function showMap(zoom_value) {
