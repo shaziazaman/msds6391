@@ -51,7 +51,7 @@ function gettingJSON(cityName, unitSelected){
 	
 	refreshValuesOnPage();
 	showThermometer();
-	showMap();
+	showMap(12);
 })
 }
 
@@ -94,10 +94,10 @@ function showThermometer() {
 	
 }
 
-function showMap() {
+function showMap(zoom_value) {
     var latlon = lat + "," + lon;
 
-    var img_url = 'https://maps.googleapis.com/maps/api/staticmap?center='+latlon+'&zoom=12&size=490x340&sensor=false&key=' + mapapiid;
+    var img_url = 'https://maps.googleapis.com/maps/api/staticmap?center='+latlon+'&zoom=' +zoom_value+ '&size=490x340&sensor=false&key=' + mapapiid;
 
     document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
 }
@@ -109,4 +109,5 @@ function getFormattedTime(timeInMilleseconds) {
 
 window.onload = function () {
 	showThermometer();
+	showMap(1);
 }
