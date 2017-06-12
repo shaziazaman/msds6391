@@ -22,10 +22,10 @@ var units = 'imperial'
 var temp_scale = 'Fahrenheit'
 
 function loadData() {
-d3.json('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=' + units +'&appid=' + apiid, function (json) {
+d3.json('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=' + units +'&appid=' + apiid, function (jsondata) {
     
-	console.log(json);
-
+	console.log(jsondata);
+	
     });
 
 }
