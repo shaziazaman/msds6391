@@ -55,7 +55,8 @@ function loadWeatherData(cityName, unitSelected) {
 		weatherData.country = jsondata.sys.country;
 
 		loadWeatherTable(weatherData);
-    	img_url = generateImageUrl(12);
+    	loadThermometer(weatherData.temp, weatherData.temp_min, weatherData.temp_max, units);
+		img_url = generateImageUrl(12);
     	loadGoogleImage(img_url);
     	loadForecastData();
 		loadForecastTable(forecastData);

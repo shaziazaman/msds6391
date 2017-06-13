@@ -5,6 +5,7 @@
 <script src="libraries/d3.v3.min.js"></script>
 <script src="js/header.js"></script>
 <script src="js/footer.js"></script>
+<script src="js/thermometer_code.js"></script>
 <script src="js/weather_d3.js"></script>
 <div id="header">
     <script type="text/javascript">
@@ -28,6 +29,8 @@
             onClick="loadWeatherData(cityInput.value, units.options[units.selectedIndex].value)">
     </FORM>
     <div  id="wtable" class="leftpane">
+    </div>
+    <div id="thermo" class="middlepane">
     </div>
     <div class="rightpane">
         <svg id="gmap" viewBox="0 0 490 360"></svg>
