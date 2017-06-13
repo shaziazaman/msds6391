@@ -55,10 +55,11 @@ function loadWeatherData(cityName, unitSelected) {
 		weatherData.country = jsondata.sys.country;
 
 		loadWeatherTable(weatherData);
-    	img_url = generateImageUrl(12);
+		loadThermometer(weatherData.temp, weatherData.temp_min, weatherData.temp_max, units);
+		img_url = generateImageUrl(12);
     	loadGoogleImage(img_url);
     	loadForecastData();
-
+		loadForecastTable(forecastData);
     });
 }
 
@@ -152,3 +153,20 @@ function transposeWeatherDataIntoArray(data) {
 	return tdata;
 }
 
+function loadForecastTable(data) {
+
+	// remove table before appending new table
+	d3.select("body").select("div#ftable").selectAll("table").remove();
+
+	// add new table
+	var table = d3.select("body").select("div#ftable").append("table");
+
+	var thead = table.append("thead");
+	var tbody = table.append("tbody");
+
+	thead.append('tr')
+		  .selectAll('th')
+		  .data(['day1','day2','day3', 'day4', 'day5']).enter()
+		  .append('th')
+		    .text(function (column) { return column; });
+}

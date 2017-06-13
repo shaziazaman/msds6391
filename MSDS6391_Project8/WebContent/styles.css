@@ -72,16 +72,16 @@ th {
 .middlepane{
    width: 10%;
    min-width: 160px;
-   height: 65%;
+   height: 55%;
    min-height: 400px;
    float: left;
-   background-color: #ff8000;
+/*    background-color: #ff8000; */
    border-collapse: collapse;
 }
 
 .rightpane{
     width: available;
-    height: 65%;
+    height: 55%;
     position: relative;
     margin-left: 50%;
     border-collapse: collapse;
@@ -90,7 +90,7 @@ th {
 	width: available;
     height: 45%;
     float: left;
-    bottom: 40px
+    bottom: 60px
     border-collapse: collapse;
 
 }
