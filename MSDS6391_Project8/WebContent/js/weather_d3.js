@@ -72,6 +72,7 @@ function loadForecastData() {
 		forecastData.country = jsondata.city.country;
 		forecastData.lat = jsondata.city.coord.lat;
 		forecastData.lon = jsondata.city.coord.lon;
+		forecastData.cnt = jsondata.cnt;
 		// Need to loop through the list and add flatten out data
 		// to forecastData list
 //		forecastData.days = jsondata.list;
