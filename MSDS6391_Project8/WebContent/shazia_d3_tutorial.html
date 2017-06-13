@@ -2,6 +2,8 @@
 <title></title>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link rel='stylesheet' href='styles.css'>
+<script type="text/javascript" src="libraries/jquery-3.2.1.min.js"></script>
+<script src="libraries/bootstrap.min.js"></script>
 <script src="libraries/d3.v3.min.js"></script>
 <script src="js/header.js"></script>
 <script src="js/footer.js"></script>
@@ -17,25 +19,35 @@
         createFooter()
     </script>
 </div>
-<section>
-    <h3>Weather Forecast using D3</h3>
-    <FORM NAME="cityWeatherForm" ACTION="" METHOD="POST">
-        Enter City to get weather information:&nbsp;&nbsp; <INPUT TYPE="text"
-            NAME="cityInput" VALUE="Dallas">&nbsp;&nbsp; Units: <select
-            Name="units" id="units" autofocus>
-            <option value="metric">Celsius</option>
-            <option value="imperial" selected>Fahrenheit</option>
-        </select>&nbsp;&nbsp; <INPUT TYPE="button" NAME="button" Value="Click"
-            onClick="loadWeatherData(cityInput.value, units.options[units.selectedIndex].value)">
-    </FORM>
-    <div  id="wtable" class="leftpane">
-    </div>
-    <div id="thermo" class="middlepane">
-    </div>
-    <div  class="rightpane">
-        <svg id="gmap" viewBox="0 0 490 360"></svg>
-    </div>
-    <div  id="ftable" class="bottompane">
-    </div>
-</section>
+<div class="panel-body">
+
+    <section>
+        <div class="panel-basic">
+            <h3>Weather Forecast using D3 - Practice with Bootstrap</h3>
+            <FORM NAME="cityWeatherForm" ACTION="" METHOD="POST">
+                Enter City to get weather information:&nbsp;&nbsp; <INPUT TYPE="text"
+                    NAME="cityInput" VALUE="Dallas">&nbsp;&nbsp; Units: <select
+                    Name="units" id="units" autofocus>
+                    <option value="metric">Celsius</option>
+                    <option value="imperial" selected>Fahrenheit</option>
+                </select>&nbsp;&nbsp; <INPUT TYPE="button" NAME="button" Value="Click"
+                    onClick="loadWeatherData(cityInput.value, units.options[units.selectedIndex].value)">
+            </FORM>
+        </div>
+        <div class="row">
+            <div  id="wtable" class="col-sm-4"></div>
+            <div class="col-sm-8">
+                <div class="column">
+                    <div class="panel-basic">
+                        <div class="row">
+                            <div id="thermo" class="col-sm-1"></div>
+                            <div  class="col-sm-4"><svg id="gmap" viewBox="0 0 490 360"></svg></div>
+                        </div>
+                    </div>
+                    <div  id="ftable" class="panel-basic"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 
