@@ -3,6 +3,7 @@
  */
 
 var apiid = '0b55e5f12b5583816c9356d808f18249'
+var mapapiid = 'AIzaSyBsJmm8GAuulHcRxYk3X3E5ZYWXObQvEWU';
 
 var weatherData = {};
 weatherData.city = 'Dallas';
@@ -29,8 +30,12 @@ forecastData.lon = 0;
 forecastData.country = '';
 forecastData.days = [];
 
-function loadWeatherData() {
-d3.json('http://api.openweathermap.org/data/2.5/weather?q=' + weatherData.city + '&units=' + units +'&appid=' + apiid, function (jsondata) {
+var img_url = generateImageUrl(1);
+
+function loadWeatherData(cityName, unitSelected) {
+	weatherData.city = cityName;
+	units = unitSelected;
+	d3.json('http://api.openweathermap.org/data/2.5/weather?q=' + weatherData.city + '&units=' + units +'&appid=' + apiid, function (jsondata) {
     
 		console.log(jsondata);
 
@@ -49,7 +54,13 @@ d3.json('http://api.openweathermap.org/data/2.5/weather?q=' + weatherData.city +
 		weatherData.sunset = jsondata.sys.sunset;
 		weatherData.country = jsondata.sys.country;
 
+    	img_url = generateImageUrl(12);
+    	loadGoogleImage(img_url);
+    	loadForecastData();
+
     });
+    img_url = generateImageUrl(1);
+    loadGoogleImage(img_url);
 }
 
 function loadForecastData() {
@@ -66,4 +77,22 @@ d3.json('http://api.openweathermap.org/data/2.5/forecast?q=' + forecastData.city
 //		forecastData.days = jsondata.list;
     });
 }
+
+function generateImageUrl(zoom_value) {
+    var latlon = weatherData.lat + "," + weatherData.lon;
+
+    return img_url = 'https://maps.googleapis.com/maps/api/staticmap?center='+latlon+'&zoom=' +zoom_value+ '&size=490x340&sensor=false&key=' + mapapiid;
+
+}
+
+function loadGoogleImage(url) {
+	console.log("adding paragraph")
+	svg = d3.select("body")
+			.select("svg#gmap")
+			.append("image")
+			.attr("width","490")
+			.attr("height","360")
+			.attr("xlink:href", url);
+}
+
 

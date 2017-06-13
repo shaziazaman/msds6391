@@ -1,10 +1,34 @@
 <!DOCTYPE html>
 <title></title>
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<link rel='stylesheet' href='d3styles.css'>
-<div id="graph"></div>
+<link rel='stylesheet' href='styles.css'>
 <script src="libraries/d3.v3.min.js"></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
 <script src="js/shazia_d3_code.js"></script>
-<svg width="50" height="50">
-    <script>loadForecastData()</script>
-</svg>
+<div id="header">
+    <script type="text/javascript">
+        createHeader()
+    </script>
+</div>
+<div id="footer">
+    <script type="text/javascript">
+        createFooter()
+    </script>
+</div>
+<section>
+    <h3>Weather Forecast using D3</h3>
+    <FORM NAME="cityWeatherForm" ACTION="" METHOD="POST">
+        Enter City to get weather information:&nbsp;&nbsp; <INPUT TYPE="text"
+            NAME="cityInput" VALUE="Dallas">&nbsp;&nbsp; Units: <select
+            Name="units" id="units" autofocus>
+            <option value="metric">Celsius</option>
+            <option value="imperial" selected>Fahrenheit</option>
+        </select>&nbsp;&nbsp; <INPUT TYPE="button" NAME="button" Value="Click"
+            onClick="loadWeatherData(cityInput.value, units.options[units.selectedIndex].value)">
+    </FORM>
+    <div class="rightpane">
+        <svg id="gmap" viewBox="0 0 490 360"></svg>
+    </div>
+</section>
+
