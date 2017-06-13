@@ -72,7 +72,7 @@ th {
 .middlepane{
    width: 10%;
    min-width: 160px;
-   height: available;
+   height: 65%;
    min-height: 400px;
    float: left;
    background-color: #ff8000;
@@ -81,10 +81,18 @@ th {
 
 .rightpane{
     width: available;
-    height: available;
+    height: 65%;
     position: relative;
     margin-left: 50%;
     border-collapse: collapse;
+}
+.bottompane {
+	width: available;
+    height: 45%;
+    float: left;
+    bottom: 40px
+    border-collapse: collapse;
+
 }
 canvas {
 	margin: 0;

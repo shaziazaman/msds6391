@@ -1,111 +1,39 @@
 <!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="styles.css">
-<script type="text/javascript" src="libraries/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="libraries/RGraph.common.core.js"></script>
-<script type="text/javascript" src="libraries/RGraph.thermometer.js"></script>
-<script type="text/javascript" src="libraries/d3.min.js"></script>
-<script type="text/javascript" src="js/header.js"></script>
-<script type="text/javascript" src="js/footer.js"></script>
-<script type="text/javascript" src="js/weather_d3.js"></script>
-<title>Weather Forecast using D3</title>
-</head>
+<title></title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel='stylesheet' href='styles.css'>
+<script src="libraries/d3.v3.min.js"></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/weather_d3.js"></script>
+<div id="header">
+    <script type="text/javascript">
+        createHeader()
+    </script>
+</div>
+<div id="footer">
+    <script type="text/javascript">
+        createFooter()
+    </script>
+</div>
+<section>
+    <h3>Weather Forecast using D3</h3>
+    <FORM NAME="cityWeatherForm" ACTION="" METHOD="POST">
+        Enter City to get weather information:&nbsp;&nbsp; <INPUT TYPE="text"
+            NAME="cityInput" VALUE="Dallas">&nbsp;&nbsp; Units: <select
+            Name="units" id="units" autofocus>
+            <option value="metric">Celsius</option>
+            <option value="imperial" selected>Fahrenheit</option>
+        </select>&nbsp;&nbsp; <INPUT TYPE="button" NAME="button" Value="Click"
+            onClick="loadWeatherData(cityInput.value, units.options[units.selectedIndex].value)">
+    </FORM>
+    <div  id="wtable" class="leftpane">
+    </div>
+    <div class="rightpane">
+        <svg id="gmap" viewBox="0 0 490 360"></svg>
+    </div>
+    <div  id="ftable" class="bottompane">
+    </div>
 
-<body>
-	<div id="header">
-		<script type="text/javascript">
-			createHeader()
-		</script>
-	</div>
-	<section>
-		<h3>Weather Forecast using D3</h3>
-		<FORM NAME="cityWeatherForm" ACTION="" METHOD="POST">
-			Enter City to get weather information:&nbsp;&nbsp; <INPUT TYPE="text"
-				NAME="cityInput" VALUE="Dallas">&nbsp;&nbsp; Units: <select
-				Name="units" id="units" autofocus>
-				<option value="metric">Celsius</option>
-				<option value="imperial" selected>Fahrenheit</option>
-			</select>&nbsp;&nbsp; <INPUT TYPE="button" NAME="button" Value="Click"
-				onClick="gettingJSON(cityInput.value, units.options[units.selectedIndex].value)">
-		</FORM>
-		<div class="container">
-			<div class="leftpane">
-				<table>
-					<tbody>
+</section>
 
-						<tr>
-							<th>Type</th>
-							<th>Value</th>
-						</tr>
-
-						<tr>
-							<td>City</td>
-							<td id='city'></td>
-						</tr>
-
-						<tr>
-							<td>Temperature</td>
-							<td id='temp'></td>
-						</tr>
-
-						<tr>
-							<td>Pressure</td>
-							<td id='pressure'></td>
-						</tr>
-
-						<tr>
-							<td>Humidity</td>
-							<td id='humidity'></td>
-						</tr>
-
-						<tr>
-							<td>Min Temperature</td>
-							<td id='temp_min'></td>
-						</tr>
-
-						<tr>
-							<td>Max Temperature</td>
-							<td id='temp_max'></td>
-						</tr>
-
-						<tr>
-							<td>Wind Speed</td>
-							<td id='wind_speed'></td>
-						</tr>
-
-						<tr>
-							<td>Wind Degree</td>
-							<td id='wind_degree'></td>
-						</tr>
-
-						<tr>
-							<td>Sunrise</td>
-							<td id='sunrise'></td>
-						</tr>
-
-						<tr>
-							<td>Sunset</td>
-							<td id='sunset'></td>
-						</tr>
-
-					</tbody>
-				</table>
-			</div>
-			<div class="middlepane">
-				<h4>Thermometer</h4>
-				<canvas id="thermocanvas" width="100" height="360"></canvas>
-			</div>
-			<div class="rightpane">
-			<h4>Geo Location</h4>
-			<div id="mapholder"></div>
-			</div>
-		</div>
-	</section>
-	<div id="footer">
-		<script type="text/javascript">
-			createFooter()
-		</script>
-	</div>
-</body>
-</html>
