@@ -29,6 +29,7 @@ forecastData.lat = 0;
 forecastData.lon = 0;
 forecastData.country = '';
 forecastData.days = [];
+forecastData.temp=[];
 
 var img_url = '';
 
@@ -73,9 +74,16 @@ function loadForecastData() {
 		forecastData.lat = jsondata.city.coord.lat;
 		forecastData.lon = jsondata.city.coord.lon;
 		forecastData.cnt = jsondata.cnt;
+		
+		for (i = 0; i < forecastData.cnt; i++) { 
+			forecastData.days[i]=jsondata.list[i]
+			forecastData.temp[i]=jsondata.list[i].main.temp
+		}
 		// Need to loop through the list and add flatten out data
 		// to forecastData list
 //		forecastData.days = jsondata.list;
+
+
     });
 }
 
@@ -167,7 +175,18 @@ function loadForecastTable(data) {
 
 	thead.append('tr')
 		  .selectAll('th')
-		  .data(['day1','day2','day3', 'day4', 'day5']).enter()
-		  .append('th')
+		  .data(['day1','day2','day3   ', 'day4   ', 'day5   ']).enter()
+		  .append('th')  
 		    .text(function (column) { return column; });
+	// create rows
+    var tr = d3.select("tbody").selectAll("tr")
+    .data(forecastData.temp).enter().append("tr")
+
+     // creates cells
+   var td = tr.selectAll("td")
+  .data(function(d){return d3.values(d)})
+  .enter().append("td")
+  .text(function(d) {return d})
+   
+ 
 }
