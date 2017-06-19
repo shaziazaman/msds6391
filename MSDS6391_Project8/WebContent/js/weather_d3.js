@@ -205,5 +205,6 @@ function convertToUTCDate(dateNumber) {
 }
 
 function generateAndLoadLineChart(data){
-
+	//use following line to add graph to div#linechart
+	//var chartsvg = d3.select("body").select("div#linechart").append();
 }
