@@ -38,7 +38,7 @@ function loadWeatherData(cityName, unitSelected) {
 	units = unitSelected;
 	d3.json('http://api.openweathermap.org/data/2.5/weather?q=' + weatherData.city + '&units=' + units +'&appid=' + apiid, function (jsondata) {
     
-		console.log(jsondata);
+		console.log("weather jsonData from API", jsondata);
 
 		weatherData.city = jsondata.name;
 		weatherData.lat = jsondata.coord.lat;
@@ -54,36 +54,42 @@ function loadWeatherData(cityName, unitSelected) {
 		weatherData.sunrise = jsondata.sys.sunrise;
 		weatherData.sunset = jsondata.sys.sunset;
 		weatherData.country = jsondata.sys.country;
-
+		console.log("weatherData",weatherData);
 		loadWeatherTable(weatherData);
     	loadThermometer(weatherData.temp, weatherData.temp_min, weatherData.temp_max, units);
 		img_url = generateImageUrl(12);
     	loadGoogleImage(img_url);
     	loadForecastData();
-		loadForecastTable(forecastData);
+    	loadForecastTable(forecastData);
     });
 }
 
 function loadForecastData() {
 	d3.json('http://api.openweathermap.org/data/2.5/forecast?q=' + forecastData.city + '&units=' + units +'&appid=' + apiid, function (jsondata) {
     
-		console.log(jsondata);
+		console.log("forecast jsondata from API", jsondata);
 
 		forecastData.city = jsondata.city.name;
 		forecastData.country = jsondata.city.country;
 		forecastData.lat = jsondata.city.coord.lat;
 		forecastData.lon = jsondata.city.coord.lon;
 		forecastData.cnt = jsondata.cnt;
-		
+		forecastData.days = [];
 		for (i = 0; i < forecastData.cnt; i++) { 
-			forecastData.days[i]=jsondata.list[i]
-			forecastData.temp[i]=jsondata.list[i].main.temp
+			var obj = {};
+			obj.dt = jsondata.list[i].dt;
+			obj.dt_txt = jsondata.list[i].dt_txt;
+			obj.temp = jsondata.list[i].main.temp;
+			forecastData.days.push(obj);
+// 			forecastData.days[i]=jsondata.list[i]
+// 			forecastData.temp[i]=jsondata.list[i].main.temp
 		}
 		// Need to loop through the list and add flatten out data
 		// to forecastData list
 //		forecastData.days = jsondata.list;
 
-
+		console.log("forecastData",forecastData);
+		
     });
 }
 
