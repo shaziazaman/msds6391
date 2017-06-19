@@ -7,6 +7,7 @@ var mapapiid = 'AIzaSyBsJmm8GAuulHcRxYk3X3E5ZYWXObQvEWU';
 
 var weatherData = {};
 weatherData.city = 'Dallas';
+weatherData.dt = 0;
 weatherData.lat = 0;
 weatherData.lon = 0;
 weatherData.condition = '';
@@ -41,6 +42,7 @@ function loadWeatherData(cityName, unitSelected) {
 		console.log("weather jsonData from API", jsondata);
 
 		weatherData.city = jsondata.name;
+		weatherData.dt = convertToUTCDate(jsondata.dt);
 		weatherData.lat = jsondata.coord.lat;
 		weatherData.lon = jsondata.coord.lon;
 		weatherData.condition = jsondata.weather[0].main;
@@ -51,8 +53,8 @@ function loadWeatherData(cityName, unitSelected) {
 		weatherData.temp_max = jsondata.main.temp_max;
 		weatherData.wind_speed = jsondata.wind.speed;
 		weatherData.wind_degree = jsondata.wind.deg;
-		weatherData.sunrise = jsondata.sys.sunrise;
-		weatherData.sunset = jsondata.sys.sunset;
+		weatherData.sunrise = convertToUTCDate(jsondata.sys.sunrise);
+		weatherData.sunset = convertToUTCDate(jsondata.sys.sunset);
 		weatherData.country = jsondata.sys.country;
 		console.log("weatherData",weatherData);
 		loadWeatherTable(weatherData);
@@ -196,6 +198,10 @@ function loadForecastTable(data) {
   .text(function(d) {return d})
    
  
+}
+
+function convertToUTCDate(dateNumber) {
+	return new Date(dateNumber * 1000).toUTCString();
 }
 
 function generateAndLoadLineChart(data){
