@@ -7,59 +7,60 @@ var mapapiid = 'AIzaSyBsJmm8GAuulHcRxYk3X3E5ZYWXObQvEWU';
 
 var weatherData = {};
 weatherData.city = 'Dallas';
-weatherData.dt = 0;
-weatherData.lat = 0;
-weatherData.lon = 0;
+weatherData.country = 'US';
 weatherData.condition = '';
-weatherData.temp = 0;
+weatherData.temp_max = 0;
+weatherData.temperature = 0;
+weatherData.temp_min = 0;
 weatherData.pressure = 0;
 weatherData.humidity = 0;
-weatherData.temp_min = 0;
-weatherData.temp_max = 0;
 weatherData.wind_speed = 0;
 weatherData.wind_degree = 0;
-weatherData.sunrise = 0;
-weatherData.sunset = 0;
-weatherData.country = '';
+
 units = 'imperial'
 temp_scale = 'Fahrenheit'
 
 var forecastData = {};
 forecastData.city = 'Dallas';
-forecastData.lat = 0;
-forecastData.lon = 0;
-forecastData.country = '';
+forecastData.country = 'US';
 forecastData.days = [];
-forecastData.temp=[];
-
-var img_url = '';
+forecastData.cnt = 0;
 
 function loadWeatherData(cityName, unitSelected) {
-	weatherData.city = cityName;
 	units = unitSelected;
-	d3.json('http://api.openweathermap.org/data/2.5/weather?q=' + weatherData.city + '&units=' + units +'&appid=' + apiid, function (jsondata) {
+	d3.json('http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=' + units +'&appid=' + apiid, function (jsondata) {
     
 		console.log("weather jsonData from API", jsondata);
 
+		var coordinate = {};
+		coordinate.lat = jsondata.coord.lat;
+		coordinate.lon = jsondata.coord.lon;
+		console.log('coorindate', coordinate);
+		
+		var clockTime = {};
+		clockTime.time = convertToUTCDate(jsondata.dt);
+		clockTime.sunrise = convertToUTCDate(jsondata.sys.sunrise);
+		clockTime.sunset = convertToUTCDate(jsondata.sys.sunset);
+		console.log('clockTime', clockTime);
+		
 		weatherData.city = jsondata.name;
-		weatherData.dt = convertToUTCDate(jsondata.dt);
-		weatherData.lat = jsondata.coord.lat;
-		weatherData.lon = jsondata.coord.lon;
+		weatherData.country = jsondata.sys.country;
 		weatherData.condition = jsondata.weather[0].main;
-		weatherData.temp = jsondata.main.temp;
-		weatherData.pressure = jsondata.main.pressure;
-		weatherData.humidity = jsondata.main.humidity;
+		weatherData.temperature = jsondata.main.temp;
 		weatherData.temp_min = jsondata.main.temp_min;
 		weatherData.temp_max = jsondata.main.temp_max;
+		weatherData.pressure = jsondata.main.pressure;
+		weatherData.humidity = jsondata.main.humidity;
 		weatherData.wind_speed = jsondata.wind.speed;
 		weatherData.wind_degree = jsondata.wind.deg;
-		weatherData.sunrise = convertToUTCDate(jsondata.sys.sunrise);
-		weatherData.sunset = convertToUTCDate(jsondata.sys.sunset);
-		weatherData.country = jsondata.sys.country;
 		console.log("weatherData",weatherData);
 		loadWeatherTable(weatherData);
-    	loadThermometer(weatherData.temp, weatherData.temp_min, weatherData.temp_max, units);
-		img_url = generateImageUrl(12);
+
+    	loadThermometer(weatherData.temperature, weatherData.temp_min, weatherData.temp_max, units);
+		
+		loadClockTable(clockTime);
+
+		var img_url = generateImageUrl(12, coordinate);
     	loadGoogleImage(img_url);
     	loadForecastData();
     	loadForecastTable(forecastData.days);
@@ -74,8 +75,6 @@ function loadForecastData() {
 
 		forecastData.city = jsondata.city.name;
 		forecastData.country = jsondata.city.country;
-		forecastData.lat = jsondata.city.coord.lat;
-		forecastData.lon = jsondata.city.coord.lon;
 		forecastData.cnt = jsondata.cnt;
 		forecastData.days = [];
 		for (i = 0; i < forecastData.cnt; i++) { 
@@ -83,20 +82,15 @@ function loadForecastData() {
 			obj.dt_txt = jsondata.list[i].dt_txt;
 			obj.temp = jsondata.list[i].main.temp;
 			forecastData.days.push(obj);
-// 			forecastData.days[i]=jsondata.list[i]
-// 			forecastData.temp[i]=jsondata.list[i].main.temp
 		}
-		// Need to loop through the list and add flatten out data
-		// to forecastData list
-//		forecastData.days = jsondata.list;
 
 		console.log("forecastData",forecastData);
 		
     });
 }
 
-function generateImageUrl(zoom_value) {
-    var latlon = weatherData.lat + "," + weatherData.lon;
+function generateImageUrl(zoom_value, coordinate) {
+    var latlon = coordinate.lat + "," + coordinate.lon;
 
     return img_url = 'https://maps.googleapis.com/maps/api/staticmap?center='+latlon+'&zoom=' +zoom_value+ '&size=490x340&sensor=false&key=' + mapapiid;
 
@@ -116,7 +110,7 @@ function loadWeatherTable(data) {
 	console.log("adding table");
 
 	//transpose data as array
-	var transposeData = transposeWeatherDataIntoArray(weatherData);
+	var transposeData = transposeWeatherDataIntoArray(data);
 
 	//get column list
 	var columns = Object.keys(transposeData[0]);
@@ -166,7 +160,7 @@ function transposeWeatherDataIntoArray(data) {
 		obj.Value = value;
 		tdata.push(obj);
 	}
-	console.log(tdata);
+	console.log('weatherDataTransposed', tdata);
 	return tdata;
 }
 
