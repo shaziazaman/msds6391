@@ -60,7 +60,7 @@ function loadWeatherData(cityName, unitSelected) {
 		img_url = generateImageUrl(12);
     	loadGoogleImage(img_url);
     	loadForecastData();
-    	loadForecastTable(forecastData);
+    	loadForecastTable(forecastData.days);
     });
 }
 
@@ -77,7 +77,6 @@ function loadForecastData() {
 		forecastData.days = [];
 		for (i = 0; i < forecastData.cnt; i++) { 
 			var obj = {};
-			obj.dt = jsondata.list[i].dt;
 			obj.dt_txt = jsondata.list[i].dt_txt;
 			obj.temp = jsondata.list[i].main.temp;
 			forecastData.days.push(obj);
@@ -168,6 +167,7 @@ function transposeWeatherDataIntoArray(data) {
 	return tdata;
 }
 
+
 function loadForecastTable(data) {
 
 	// remove table before appending new table
@@ -175,18 +175,18 @@ function loadForecastTable(data) {
 
 	// add new table
 	var table = d3.select("body").select("div#ftable").append("table");
-
+	
 	var thead = table.append("thead");
 	var tbody = table.append("tbody");
 
 	thead.append('tr')
 		  .selectAll('th')
-		  .data(['day1','day2','day3   ', 'day4   ', 'day5   ']).enter()
+		  .data(['dt_txt','temp']).enter()
 		  .append('th')  
 		    .text(function (column) { return column; });
 	// create rows
-    var tr = d3.select("tbody").selectAll("tr")
-    .data(forecastData.temp).enter().append("tr")
+    var tr = tbody.selectAll("tr")
+    .data(data).enter().append("tr")
 
      // creates cells
    var td = tr.selectAll("td")
