@@ -61,6 +61,7 @@ function loadWeatherData(cityName, unitSelected) {
     	loadGoogleImage(img_url);
     	loadForecastData();
     	loadForecastTable(forecastData.days);
+    	generateAndLoadLineChart(forecastData.days);
     });
 }
 
@@ -195,4 +196,8 @@ function loadForecastTable(data) {
   .text(function(d) {return d})
    
  
+}
+
+function generateAndLoadLineChart(data){
+
 }
