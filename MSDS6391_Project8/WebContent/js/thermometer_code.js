@@ -1,5 +1,5 @@
 var width = 100,
-    height = 400,
+    height = 300,
     maxTemp = 0,
     minTemp = 0,
     currentTemp = 0;
