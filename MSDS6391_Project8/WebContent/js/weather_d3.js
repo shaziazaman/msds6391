@@ -62,14 +62,14 @@ function loadWeatherData(cityName, unitSelected) {
 
 		var img_url = generateImageUrl(12, coordinate);
     	loadGoogleImage(img_url);
-    	loadForecastData();
-    	loadForecastTable(forecastData.days);
-    	generateAndLoadLineChart(forecastData.days);
     });
+
+    loadForecastData(cityName);
+
 }
 
-function loadForecastData() {
-	d3.json('http://api.openweathermap.org/data/2.5/forecast?q=' + forecastData.city + '&units=' + units +'&appid=' + apiid, function (jsondata) {
+function loadForecastData(cityName) {
+	d3.json('http://api.openweathermap.org/data/2.5/forecast?q=' + cityName + '&units=' + units +'&appid=' + apiid, function (jsondata) {
     
 		console.log("forecast jsondata from API", jsondata);
 
@@ -85,6 +85,10 @@ function loadForecastData() {
 		}
 
 		console.log("forecastData",forecastData);
+
+		loadForecastTable(forecastData.days);
+    	generateAndLoadLineChart(forecastData.days);
+
 		
     });
 }
