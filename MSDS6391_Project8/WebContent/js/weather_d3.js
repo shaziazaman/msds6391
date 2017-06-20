@@ -205,7 +205,7 @@ function convertToUTCDate(dateNumber) {
 function generateAndLoadLineChart(data){
 	//use following line to add graph to div#linechart
 	
-	var chartsvg = d3.select("body").select("div#linechart").append();
+	//var chartsvg = d3.select("body").select("div#linechart").append("svg");
 	
 	// define dimensions of graph
 	  var m = [80, 80, 80, 80]; // margins
@@ -236,7 +236,7 @@ function generateAndLoadLineChart(data){
 	      return x_dim_accessor(a) - x_dim_accessor(b);
 	    });
 	    
-	    render(data2);
+	    render(data2,x_range,y_range,m,w,h,x_dim_accessor,y_dim_accessor);
 
 	    var data3 = data.filter(function(d){
 	      return d.label == "jp@gc - Dummy Sampler-60";
@@ -244,11 +244,11 @@ function generateAndLoadLineChart(data){
 	      return x_dim_accessor(a) - x_dim_accessor(b);
 	    });
 	    
-	    render(data3);
+	    render(data3,x_range,y_range,m,w,h,x_dim_accessor,y_dim_accessor);
 	 
 }
 
-function render(data){
+function render(data,x_range,y_range,m,w,h,x_dim_accessor,y_dim_accessor){
     
     // X scale will fit all values from data[] within pixels 0-w
     var x = d3.scale.linear().domain(x_range).range([0, w]);
@@ -268,7 +268,7 @@ function render(data){
       })
 
       // Add an SVG element with the desired dimensions and margin.
-      var graph = d3.select("#graph").append("svg:svg")
+      var graph = d3.select("div#linechart").append("svg:svg")
             .attr("width", w + m[1] + m[3])
             .attr("height", h + m[0] + m[2])
           .append("svg:g")
