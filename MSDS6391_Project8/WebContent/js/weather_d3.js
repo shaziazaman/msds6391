@@ -265,6 +265,8 @@ function render(data,x_range,y_range,m,w,h,x_dim_accessor,y_dim_accessor){
             .attr("height", h + m[0] + m[2])
           .append("svg:g")
             .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+
+      graph.append("text").text("Five Days Forecast");
 	
 	  // get datatime labels for x-axis
 	  var x_labels = data.map(function(d) {return d.dt_txt;});
