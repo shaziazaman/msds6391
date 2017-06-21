@@ -212,8 +212,8 @@ function generateAndLoadLineChart(data){
 	  var w = 1000 - m[1] - m[3]; // width
 	  var h = 400 - m[0] - m[2]; // height
 	  
-	  var x_dim_accessor = function(d){return d.elapsed};
-	  var y_dim_accessor = function(d){return d.throughput};
+	  var x_dim_accessor = function(d){return d.dt_txt};
+	  var y_dim_accessor = function(d){return d.temp};
 
 	  var x_range;
 	  var y_range;
