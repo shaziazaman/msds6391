@@ -79,6 +79,7 @@ function loadForecastData(cityName) {
 		forecastData.days = [];
 		for (i = 0; i < forecastData.cnt; i++) { 
 			var obj = {};
+			obj.dt = jsondata.list[i].dt;
 			obj.dt_txt = jsondata.list[i].dt_txt;
 			obj.temp = jsondata.list[i].main.temp;
 			forecastData.days.push(obj);
@@ -205,14 +206,12 @@ function convertToUTCDate(dateNumber) {
 function generateAndLoadLineChart(data){
 	//use following line to add graph to div#linechart
 	
-	//var chartsvg = d3.select("body").select("div#linechart").append("svg");
-	
 	// define dimensions of graph
 	  var m = [80, 80, 80, 80]; // margins
 	  var w = 1000 - m[1] - m[3]; // width
 	  var h = 400 - m[0] - m[2]; // height
 	  
-	  var x_dim_accessor = function(d){return d.dt_txt};
+	  var x_dim_accessor = function(d){return d.dt};
 	  var y_dim_accessor = function(d){return d.temp};
 
 	  var x_range;
@@ -230,22 +229,12 @@ function generateAndLoadLineChart(data){
 	      d3.max(data, y_dim_accessor)
 	    ];
 
-	    var data2 = data.filter(function(d){
-	      return d.label == "jp@gc - Dummy Sampler-30";
-	    }).sort(function(a,b){
+		var data2 = data.sort(function(a,b){
 	      return x_dim_accessor(a) - x_dim_accessor(b);
 	    });
 	    
 	    render(data2,x_range,y_range,m,w,h,x_dim_accessor,y_dim_accessor);
 
-	    var data3 = data.filter(function(d){
-	      return d.label == "jp@gc - Dummy Sampler-60";
-	    }).sort(function(a,b){
-	      return x_dim_accessor(a) - x_dim_accessor(b);
-	    });
-	    
-	    render(data3,x_range,y_range,m,w,h,x_dim_accessor,y_dim_accessor);
-	 
 }
 
 function render(data,x_range,y_range,m,w,h,x_dim_accessor,y_dim_accessor){
@@ -266,15 +255,25 @@ function render(data,x_range,y_range,m,w,h,x_dim_accessor,y_dim_accessor){
       .y(function(d) { 
         return y(y_dim_accessor(d)); 
       })
-
+	  
+	  // Remove previous graphs
+	  d3.select("div#linechart").selectAll("svg").remove();
+	  
       // Add an SVG element with the desired dimensions and margin.
       var graph = d3.select("div#linechart").append("svg:svg")
             .attr("width", w + m[1] + m[3])
             .attr("height", h + m[0] + m[2])
           .append("svg:g")
             .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
-
+	
+	  // get datatime labels for x-axis
+	  var x_labels = data.map(function(d) {return d.dt_txt;});
       // create yAxis
+      var x_txt = d3.scale.ordinal()
+    			.domain(x_labels)
+    			.rangePoints([0, data.length-1]);
+
+//       var xAxis = d3.svg.axis().scale(x_txt);
       var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
       // Add the x-axis.
       graph.append("svg:g")
@@ -294,4 +293,5 @@ function render(data,x_range,y_range,m,w,h,x_dim_accessor,y_dim_accessor){
         // Add the line by appending an svg:path element with the data line we created above
       // do this AFTER the axes above so that the line is above the tick-lines
       graph.append("svg:path").attr("d", line(data));
+		
   }
