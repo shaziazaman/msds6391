@@ -87,7 +87,7 @@ function loadForecastData(cityName) {
 
 		console.log("forecastData",forecastData);
 
-		// loadForecastTable(forecastData.days);
+// 		loadForecastTable(forecastData.days);
     	generateAndLoadLineChart(forecastData.days);
 
 		
@@ -207,9 +207,9 @@ function generateAndLoadLineChart(data){
 	//use following line to add graph to div#linechart
 	
 	// define dimensions of graph
-	  var m = [80, 80, 80, 80]; // margins
-	  var w = 1000 - m[1] - m[3]; // width
-	  var h = 400 - m[0] - m[2]; // height
+	  var m = {top: 0, right: 50, bottom: 150, left: 50}; // margins
+	  var w = 1000 - m.left - m.right; // width
+	  var h = 300 - m.top - m.bottom; // height
 	  
 	  var x_dim_accessor = function(d){return d.dt};
 	  var y_dim_accessor = function(d){return d.temp};
@@ -261,27 +261,34 @@ function render(data,x_range,y_range,m,w,h,x_dim_accessor,y_dim_accessor){
 	  
       // Add an SVG element with the desired dimensions and margin.
       var graph = d3.select("div#linechart").append("svg:svg")
-            .attr("width", w + m[1] + m[3])
-            .attr("height", h + m[0] + m[2])
+            .attr("width", w + m.left + m.right)
+            .attr("height", h + m.top + m.bottom)
           .append("svg:g")
-            .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+            .attr("transform", "translate(" + m.left + "," + m.right+ ")");
 
-      graph.append("text").text("Five Days Forecast");
+      graph.append("text").style("font-size", "16px").text("Five Days Forecast");
 	
 	  // get datatime labels for x-axis
 	  var x_labels = data.map(function(d) {return d.dt_txt;});
       // create yAxis
       var x_txt = d3.scale.ordinal()
     			.domain(x_labels)
-    			.rangePoints([0, data.length-1]);
+    			.rangePoints([0, w]);
 
-//       var xAxis = d3.svg.axis().scale(x_txt);
-      var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
+      var xAxis = d3.svg.axis().scale(x_txt);
+//       var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
       // Add the x-axis.
       graph.append("svg:g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + h + ")")
-            .call(xAxis);
+            .call(xAxis)
+            .selectAll("text")	
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function(d) {
+                return "rotate(-90)" 
+                });;
 
 
       // create left yAxis
