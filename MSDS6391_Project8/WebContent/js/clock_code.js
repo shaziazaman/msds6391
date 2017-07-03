@@ -1,21 +1,183 @@
-function drawClock(clockData) {
+// Reference: http://bl.ocks.org/tomgp/6475678
+
+var radians = 0.0174532925;
+var clockRadius = 80;
+var clockMargins = 15;
+var clockWidth = (clockRadius+clockMargins)*2;
+var clockHeight = (clockRadius+clockMargins)*2;
+var sunriseHandLength = 2*clockRadius/3;
+var sunsetHandLength = 2*clockRadius/3;
+var hourTickStart = clockRadius + 10;
+var hourTickLength = -1;
+var hourLabelRadius = clockRadius - 10;
+var hourLabelYOffset = 7;
+
+var hourScale = d3.scale.linear()
+	.range([0,354])
+	.domain([0,24]);
+
+var handData = [
+	{
+		type:'sunrise-hour',
+		value:0,
+		length:-sunriseHandLength,
+		scale:hourScale
+	},
+	{
+		type:'sunset-hour',
+		value:0,
+		length:-sunsetHandLength,
+		scale:hourScale
+	}
+];
+
+var radioLabels = ['Table','Clock'];
+
+function displayClockOrTable(data, svg){
+	// remove table before appending new table
+	d3.select("body").select("div#clock").selectAll("table").remove();
+	d3.select("body").select("div#clock").selectAll("svg").remove();
+
+	var clock_svg = d3.select("body").select("div#clock")
+				.append("svg")
+				.attr("width", clockWidth)
+	    		.attr("height", clockHeight);
+
+	var radioControlGroup = clock_svg.append('g');      
+	var clockVisualGroup = clock_svg.append('g');
+	
+	radioControlGroup.selectAll('form').remove(); 
+	var radioForm = radioControlGroup.append('form');
+
+	radioForm.selectAll("label")
+    .data(radioLabels)
+    .enter()
+    .append("label")
+    .text(function(d) {return d;})
+    .insert("input")
+    .attr({
+        type: "radio",
+        class: "radio",
+        name: "mode",
+        value: function(d, i) {
+        	if ( i == 0){
+        		loadClockTable(data, clockVisualGroup);
+        	}
+        	else {
+        		drawDayLightClock(data, clockVisualGroup);
+        	};
+    }})
+    .property("checked", function(d, i) {return i===0;});
 
 }
 
-function loadClockTable(data) {
-console.log("adding table");
+
+function convertToUTCDateString(dateNumber) {
+	return new Date(dateNumber * 1000).toUTCString();
+}
+
+function convertToUTCDate(dateNumber) {
+	return new Date(dateNumber * 1000);
+}
+
+function drawDayLightClock(data, svg) {
+	
+	var face = svg.append('g')
+		.attr('id','clock_face')
+		.attr('transform','translate(' + (clockRadius + clockMargins) + ',' + (clockRadius + clockMargins) + ')');
+
+	//add hours
+	face.selectAll('.hour-tick')
+		.data(d3.range(0,24)).enter()
+			.append('line')
+			.attr('class', 'hour-tick')
+			.attr('x1',0)
+			.attr('x2',0)
+			.attr('y1',hourTickStart)
+			.attr('y2',hourTickStart + hourTickLength)
+			.attr('transform',function(d){
+				return 'rotate(' + hourScale(d) + ')';
+			});
+
+	face.selectAll('.hour-label')
+		.data(d3.range(3,25,3))
+			.enter()
+			.append('text')
+			.attr('class', 'hour-label')
+			.attr('text-anchor','middle')
+			.attr('x',function(d){
+				return hourLabelRadius*Math.sin(hourScale(d)*radians);
+			})
+			.attr('y',function(d){
+				return -hourLabelRadius*Math.cos(hourScale(d)*radians) + hourLabelYOffset;
+			})
+			.text(function(d){
+				return d;
+			});
+
+	face.append('g').attr('id','face-overlay')
+		.append('circle').attr('class','hands-cover')
+			.attr('x',0)
+			.attr('y',0)
+			.attr('r',clockRadius/20);
+
+	var hands = face.append('g').attr('id','clock-hands');
+
+	hands.selectAll('line')
+		.data(handData)
+		.enter()
+		.append('line')
+		.attr('class', function(d){
+			return d.type + '-hand';
+		})
+		.attr('x1',0)
+		.attr('y1',function(d){
+			return d.balance ? d.balance : 0;
+		})
+		.attr('x2',0)
+		.attr('y2',function(d){
+			return d.length;
+		})
+		.attr('transform',function(d){
+			return 'rotate('+ d.scale(d.value) +')';
+		});
+
+		updateClockData(data);
+		moveClockHands();
+}
+
+function moveClockHands(){
+	d3.select('#clock-hands').selectAll('line')
+	.data(handData)
+		.transition()
+		.attr('transform',function(d){
+			return 'rotate('+ d.scale(d.value) +')';
+		});
+}
+
+function updateClockData(data){
+	sunrise = convertToUTCDate(data.sunrise);
+	sunset = convertToUTCDate(data.sunset);
+	handData[0].value = sunrise.getHours() + sunrise.getMinutes()/60;
+	handData[1].value = sunset.getHours() + sunset.getMinutes()/60;
+}
+
+function loadClockTable(data, svg) {
+	console.log("adding table");
+
+	var time = {};
+	time.current_time = convertToUTCDateString(data.time);
+	time.sunrise_time = convertToUTCDateString(data.sunrise);
+	time.sunset_time = convertToUTCDateString(data.sunset);
 
 	//transpose data as array
-	var transposeData = transposeWeatherDataIntoArray(data);
+	var transposeTimeData = transposeWeatherDataIntoArray(time);
 
 	//get column list
-	var columns = Object.keys(transposeData[0]);
-
-	// remove table before appending new table
-	d3.select("body").select("div#clock").selectAll("table").remove();
+	var columns = Object.keys(transposeTimeData[0]);
 
 	// add new table
-	var table = d3.select("body").select("div#clock").append("table");
+	var table = svg.append("table");
 
 	var thead = table.append("thead");
 	var tbody = table.append("tbody");
@@ -28,7 +190,7 @@ console.log("adding table");
 
 	// create a row for each object in the data
 	var rows = tbody.selectAll('tr')
-	  .data(transposeData)
+	  .data(transposeTimeData)
 	  .enter()
 	  .append('tr');
 

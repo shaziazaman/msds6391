@@ -38,9 +38,9 @@ function loadWeatherData(cityName, unitSelected) {
 		console.log('coorindate', coordinate);
 		
 		var clockTime = {};
-		clockTime.time = convertToUTCDate(jsondata.dt);
-		clockTime.sunrise = convertToUTCDate(jsondata.sys.sunrise);
-		clockTime.sunset = convertToUTCDate(jsondata.sys.sunset);
+		clockTime.time = jsondata.dt;
+		clockTime.sunrise = jsondata.sys.sunrise;
+		clockTime.sunset = jsondata.sys.sunset;
 		console.log('clockTime', clockTime);
 		
 		weatherData.city = jsondata.name;
@@ -58,8 +58,8 @@ function loadWeatherData(cityName, unitSelected) {
 
     	loadThermometer(weatherData.temperature, weatherData.temp_min, weatherData.temp_max, units);
 		
-		loadClockTable(clockTime);
-
+		displayClockOrTable(clockTime);
+		
 		var img_url = generateImageUrl(12, coordinate);
     	loadGoogleImage(img_url);
     });
@@ -197,10 +197,6 @@ function loadForecastTable(data) {
   .text(function(d) {return d})
    
  
-}
-
-function convertToUTCDate(dateNumber) {
-	return new Date(dateNumber * 1000).toUTCString();
 }
 
 function generateAndLoadLineChart(data){

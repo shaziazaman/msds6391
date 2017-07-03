@@ -126,3 +126,32 @@ path {
   fill: none;
   stroke: #000;
 }
+
+.hour-hand{
+	stroke-width:12;
+	stroke-linecap:round;
+}
+.sunrise-hour-hand{
+	stroke-width:12;
+	stroke-linecap:round;
+	stroke: #e2de2b
+}
+.sunset-hour-hand{
+	stroke-width:12;
+	stroke-linecap:round;
+	stroke: #560202
+}
+
+.hands-cover{
+	stroke-width:3;
+	fill:#222;
+}
+.hour-tick{
+	stroke-width:12; 
+	stroke: #091a9c;
+	stroke-linecap:round;
+}
+
+.hour-label{
+	font-size: 24px;
+}
