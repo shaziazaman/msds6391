@@ -58,7 +58,7 @@ function loadWeatherData(cityName, unitSelected) {
 
     	loadThermometer(weatherData.temperature, weatherData.temp_min, weatherData.temp_max, units);
 		
-		displayClockOrTable(clockTime);
+		displayClockOrTable(clockTime, coordinate);
 		
 		var img_url = generateImageUrl(12, coordinate);
     	loadGoogleImage(img_url);
