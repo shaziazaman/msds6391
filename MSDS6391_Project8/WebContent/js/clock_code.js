@@ -36,6 +36,13 @@ var radioLabels = ['Table','Clock'];
 
 function displayClockOrTable(data, coordinate){
 	// remove table before appending new table
+	d3.select("body").select("div#clock").select("svg").remove();
+
+	var svg = d3.select("body").select("div#clock")
+				.append("svg")
+				.attr("width", clockWidth)
+	    		.attr("height", 300);
+
 	var latlon = coordinate.lat + ',' + coordinate.lon;
 	var timeInSecond = data.time;
 	d3.json('https://maps.googleapis.com/maps/api/timezone/json?location='+latlon+'&timestamp='+timeInSecond+'&key='+timezoneapiid,function (jsondata) {
@@ -45,8 +52,8 @@ function displayClockOrTable(data, coordinate){
 		offset.raw = jsondata.rawOffset;
 
 		console.log('offset data', offset);
-// 		loadClockTable(data, offset);
-		drawDayLightClock(data, offset);
+		drawDayLightClock(data, offset, svg);
+		loadClockTableGroup(data, offset, svg);
 	});
 
 }
@@ -71,13 +78,7 @@ function convertToUTCDate(dateNumber, offset) {
 	return timeData;
 }
 
-function drawDayLightClock(data, offset) {
-	d3.select("body").select("div#clock").select("svg").remove();
-
-	var svg = d3.select("body").select("div#clock")
-				.append("svg")
-				.attr("width", clockWidth)
-	    		.attr("height", clockHeight);
+function drawDayLightClock(data, offset, svg) {
 
 	var face = svg.append('g')
 		.attr('id','clock_face')
@@ -157,6 +158,30 @@ function updateClockData(data, offset){
 	sunset = convertToUTCDate(data.sunset, offset);
 	handData[0].value = sunrise.hours + sunrise.minutes/60;
 	handData[1].value = sunset.hours + sunset.minutes/60;
+}
+
+function loadClockTableGroup(data, offset, svg) {
+	var tableGroup = svg.append('g').attr('id','clock_table');
+
+	var time = {};
+	time.monitor_time = convertToUTCDateString(data.time, offset);
+	time.sunrise_time = convertToUTCDateString(data.sunrise, offset);
+	time.sunset_time = convertToUTCDateString(data.sunset, offset);
+	
+	tableGroup.append("text")
+ 				.attr("x", 15)
+    			.attr("y", clockHeight + 25)
+    			.text('Sensor Time: ' + time.monitor_time);
+    
+    tableGroup.append("text")
+ 				.attr("x", 15)
+    			.attr("y", clockHeight + 50)
+    			.text('Sunrise Time: ' + time.sunrise_time);
+
+   tableGroup.append("text")
+ 				.attr("x", 15)
+    			.attr("y", clockHeight + 75)
+    			.text('Sunset Time: ' + time.sunset_time);			
 }
 
 function loadClockTable(data, offset) {
