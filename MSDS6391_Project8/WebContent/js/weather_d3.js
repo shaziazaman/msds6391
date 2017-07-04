@@ -80,6 +80,8 @@ function loadForecastData(cityName) {
 		for (i = 0; i < forecastData.cnt; i++) { 
 			var obj = {};
 			obj.dt = jsondata.list[i].dt;
+			//Library to convert date format
+			//obj.dt = moment.unix(obj.dt).format('LLL');
 			obj.dt_txt = jsondata.list[i].dt_txt;
 			obj.temp = jsondata.list[i].main.temp;
 			forecastData.days.push(obj);
@@ -203,7 +205,7 @@ function generateAndLoadLineChart(data){
 	//use following line to add graph to div#linechart
 	
 	// define dimensions of graph
-	  var m = {top: 0, right: 50, bottom: 150, left: 50}; // margins
+	  var m = {top: 0, right: 50, bottom: 200, left: 50}; // margins
 	  var w = 1000 - m.left - m.right; // width
 	  var h = 300 - m.top - m.bottom; // height
 	  
