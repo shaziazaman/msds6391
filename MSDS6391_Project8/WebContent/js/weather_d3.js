@@ -267,7 +267,7 @@ function render(data,x_range,y_range,m,w,h,x_dim_accessor,y_dim_accessor){
       graph.append("text").style("font-size", "16px").text("Five Day Forecast");
 	
 	  // get datatime labels for x-axis
-	  var x_labels = data.map(function(d) {return d.dt_txt;});
+	  var x_labels = data.map(function(d) {return d.dt_txt.substring(0,13);});
       // create yAxis
       var x_txt = d3.scale.ordinal()
     			.domain(x_labels)
