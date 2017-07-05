@@ -80,11 +80,18 @@ function convertToUTCDate(dateNumber, offset) {
 
 function drawDayLightClock(data, offset, svg) {
 
-	var face = svg.append('g')
-		.attr('id','clock_face')
-		.attr('transform','translate(' + (clockRadius + clockMargins) + ',' + (clockRadius + clockMargins) + ')');
+	svg.append('g')
+		.append("text")
+		.attr("x", 15)
+		.attr("y", 15)
+		.attr("font-size",14)
+		.attr("font-weight","bold")
+		.text('Sunrise and Sunset Time');
 
-	//add hours
+    var face = svg.append('g')
+		.attr('id','clock_face')
+		.attr('transform','translate(' + (clockRadius + clockMargins) + ',' + (clockRadius + clockMargins + 30) + ')');
+
 	face.selectAll('.hour-tick')
 		.data(d3.range(0,24)).enter()
 			.append('line')
@@ -168,11 +175,6 @@ function loadClockTableGroup(data, offset, svg) {
 	time.sunrise_time = convertToUTCDateString(data.sunrise, offset);
 	time.sunset_time = convertToUTCDateString(data.sunset, offset);
 	
-	tableGroup.append("text")
- 				.attr("x", 15)
-    			.attr("y", clockHeight + 25)
-    			.text('Sensor Time: ' + time.monitor_time);
-    
     tableGroup.append("text")
  				.attr("x", 15)
     			.attr("y", clockHeight + 50)
