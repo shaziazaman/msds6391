@@ -39,7 +39,7 @@ function displayClockOrTable(data, coordinate, dashboard_svg){
 	var latlon = coordinate.lat + ',' + coordinate.lon;
 	var timeInSecond = data.time;
 	var svg = dashboard_svg.append("g");
-	svg.attr("id","clock");
+	svg.attr("id","clock").attr("transform","translate(150,0)");
 	
 	d3.json('https://maps.googleapis.com/maps/api/timezone/json?location='+latlon+'&timestamp='+timeInSecond+'&key='+timezoneapiid,function (jsondata) {
 		console.log('timezone data', jsondata);
