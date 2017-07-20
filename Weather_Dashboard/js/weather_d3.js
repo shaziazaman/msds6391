@@ -62,7 +62,7 @@ function loadWeatherData(cityName, unitSelected) {
 		console.log("weatherData",weatherData);
 		loadWeatherTable(weatherData);
 
-    	loadThermometer(weatherData.temperature, weatherData.temp_min, weatherData.temp_max, units, monitor_svg);
+    	loadThermometer(weatherData.temperature, weatherData.temp_min, weatherData.temp_max, units, forecast_svg);
 		
 		displayClockOrTable(clockTime, coordinate, monitor_svg);
 		

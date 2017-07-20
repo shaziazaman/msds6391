@@ -29,7 +29,7 @@ function loadThermometer(temp, min_temp, max_temp, units, dashboard_svg) {
     temp_units = units;
 
     var svg = dashboard_svg.append("g");
-    svg.attr('id','thermo');
+    svg.attr('id','thermo').attr('class','widget');
 
 // Circle element for rounded tube top
 svg.append("circle")
