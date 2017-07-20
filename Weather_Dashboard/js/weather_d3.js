@@ -30,6 +30,10 @@ function loadWeatherData(cityName, unitSelected) {
 
 	d3.select("body").select("div#dashboard").select("svg").remove();
 	var svg = d3.select("body").select("div#dashboard").append("svg").attr('width',1000).attr('height',600).attr("transform","translate(20,0)");
+	
+// 	var defs = svg.append("defs");
+//     defs.style('background','#0000ff');
+
 	var forecast_svg = svg.append("g");
 	var monitor_svg = svg.append("g")
 	monitor_svg.attr("transform","translate(0,300)");

@@ -158,6 +158,6 @@ path {
 
 /* div block widget styles */
 .widget {
-background:#0000ff;
-border: 1px solid black;
+fill:#c3c3ef;
+border: 1px dashed black;
 }
