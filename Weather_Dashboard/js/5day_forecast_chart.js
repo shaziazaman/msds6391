@@ -56,7 +56,7 @@ function render(data, dashboard_svg){
 	  
       // Add an SVG element with the desired dimensions and margin.
       var graph = dashboard_svg.append("g").attr('id','5-day-chart')
-      		.attr("transform", "translate(100,0)")
+      		.attr("transform", "translate(200,0)")
             .attr("width", w + m.left + m.right)
             .attr("height", h + m.top + m.bottom)
           .append("svg:g")

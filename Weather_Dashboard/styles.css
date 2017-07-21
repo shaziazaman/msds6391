@@ -159,5 +159,11 @@ path {
 /* div block widget styles */
 .widget {
 fill:#c3c3ef;
-border: 1px dashed black;
+stroke: #0000ff;
+stroke-width: 5;
+opacity: 0.5;
+}
+
+.widget1 {
+background-color:#f2f2f2;
 }

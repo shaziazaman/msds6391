@@ -77,7 +77,7 @@ function convertToUTCDate(dateNumber, offset) {
 function drawDayLightClock(data, offset, svg) {
 
 	    // creating widget
-    svg.append("rect").attr("x",-10).attr("y",-10)
+    svg.append("rect").attr("x",-10).attr("y",-10).attr("rx",10).attr("ry",10)
       .attr("width",clockWidth+20).attr("height", clockHeight+15+85)
       .attr("class","widget");
 
