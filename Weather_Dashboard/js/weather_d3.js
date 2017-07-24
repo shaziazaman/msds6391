@@ -29,13 +29,13 @@ function loadWeatherData(cityName, unitSelected) {
 	units = unitSelected;
 
 	d3.select("body").select("div#dashboard").select("svg").remove();
-	var svg = d3.select("body").select("div#dashboard").append("svg").attr('width',1000).attr('height',600)
+	var svg = d3.select("body").select("div#dashboard").append("svg").attr('width',1500).attr('height',1000)
 	.attr("transform","translate(50,50)")
 	.attr("class","widget1");
 	
 	var forecast_svg = svg.append("g");
 	var monitor_svg = svg.append("g")
-	monitor_svg.attr("transform","translate(0,300)");
+	monitor_svg.attr("transform","translate(0,450)");
 	
 	d3.json('http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=' + units +'&appid=' + apiid, function (jsondata) {
     
