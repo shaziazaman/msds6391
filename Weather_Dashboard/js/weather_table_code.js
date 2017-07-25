@@ -76,7 +76,8 @@ function loadWeatherTableSVG(dataset, dashboard_svg) {
 
      //adding table weather talbe values
 	var transposeData = transposeWeatherDataIntoArray(dataset);	
-    var txtsvg=svg.append('g');
+    var txtsvg=svg.append('g').attr("transform", "translate(0,30)");
+    
 
      txtsvg.selectAll("text")
                 .data(transposeData)
