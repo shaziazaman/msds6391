@@ -39,7 +39,7 @@ function displayClockOrTable(data, coordinate, dashboard_svg){
 	var latlon = coordinate.lat + ',' + coordinate.lon;
 	var timeInSecond = data.time;
 	var svg = dashboard_svg.append("g");
-	svg.attr("id","clock").attr("transform","translate(150,0)");
+	svg.attr("id","clock").attr("transform","translate(335,0)");
 	
 	d3.json('https://maps.googleapis.com/maps/api/timezone/json?location='+latlon+'&timestamp='+timeInSecond+'&key='+timezoneapiid,function (jsondata) {
 		console.log('timezone data', jsondata);
@@ -49,7 +49,6 @@ function displayClockOrTable(data, coordinate, dashboard_svg){
 
 		console.log('offset data', offset);
 		drawDayLightClock(data, offset, svg);
-		loadClockTableGroup(data, offset, svg);
 	});
 
 }
@@ -77,22 +76,21 @@ function convertToUTCDate(dateNumber, offset) {
 function drawDayLightClock(data, offset, svg) {
 
 	    // creating widget
-    svg.append("rect").attr("x",-10).attr("y",-10).attr("rx",10).attr("ry",10)
-      .attr("width",clockWidth+20).attr("height", clockHeight+15+85)
+   svg.append("rect").attr("x",0).attr("y",0).attr("rx",10).attr("ry",10)
+      .attr("width",clockWidth+70).attr("height", 400)
       .attr("class","widget");
 
-
+	// adding heading for widget
 	svg.append('g')
 		.append("text")
-		.attr("x", 15)
-		.attr("y", 15)
-		.attr("font-size",14)
-		.attr("font-weight","bold")
+		.attr("x", 30)
+		.attr("y", 25)
+		.attr("class","widget-heading")
 		.text('Sunrise and Sunset Time');
 
     var face = svg.append('g')
 		.attr('id','clock_face')
-		.attr('transform','translate(' + (clockRadius + clockMargins) + ',' + (clockRadius + clockMargins + 30) + ')');
+		.attr('transform','translate(' + (clockRadius + clockMargins + 30) + ',' + (clockRadius + clockMargins + 50) + ')');
 
 	face.selectAll('.hour-tick')
 		.data(d3.range(0,24)).enter()
@@ -149,6 +147,8 @@ function drawDayLightClock(data, offset, svg) {
 			return 'rotate('+ d.scale(d.value) +')';
 		});
 
+		loadClockTableGroup(data, offset, svg);
+
 		updateClockData(data, offset);
 		moveClockHands();
 }
@@ -170,7 +170,8 @@ function updateClockData(data, offset){
 }
 
 function loadClockTableGroup(data, offset, svg) {
-	var tableGroup = svg.append('g').attr('id','clock_table');
+	var tableGroup = svg.append('g').attr('id','clock_table')
+						.attr("transform","translate(15, " + (clockHeight + 100) + ")");
 
 	var time = {};
 	time.monitor_time = convertToUTCDateString(data.time, offset);
@@ -179,12 +180,12 @@ function loadClockTableGroup(data, offset, svg) {
 	
     tableGroup.append("text")
  				.attr("x", 15)
-    			.attr("y", clockHeight + 50)
+    			.attr("y", 0)
     			.text('Sunrise Time: ' + time.sunrise_time);
 
    tableGroup.append("text")
  				.attr("x", 15)
-    			.attr("y", clockHeight + 75)
+    			.attr("y", 25)
     			.text('Sunset Time: ' + time.sunset_time);			
 }
 

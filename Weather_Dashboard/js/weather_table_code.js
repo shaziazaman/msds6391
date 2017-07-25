@@ -55,3 +55,21 @@ function transposeWeatherDataIntoArray(data) {
 	console.log('weatherDataTransposed', tdata);
 	return tdata;
 }
+
+function loadWeatherTableSVG(data, dashboard_svg) {
+	var svg = dashboard_svg.append("g").attr("transform", "translate(0,0)");
+
+	    // creating widget
+    svg.append("rect").attr("x",0).attr("y",0).attr("rx",10).attr("ry",10)
+      .attr("width",330).attr("height", 400)
+      .attr("class","widget");
+
+	// adding heading for widget
+	svg.append('g')
+		.append("text")
+		.attr("x", 120)
+		.attr("y", 20)
+		.attr("class","widget-heading")
+		.text('Weather Data');
+
+}

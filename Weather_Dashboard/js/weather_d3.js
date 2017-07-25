@@ -29,13 +29,12 @@ function loadWeatherData(cityName, unitSelected) {
 	units = unitSelected;
 
 	d3.select("body").select("div#dashboard").select("svg").remove();
-	var svg = d3.select("body").select("div#dashboard").append("svg").attr('width',1500).attr('height',1000)
+	var svg = d3.select("body").select("div#dashboard").append("svg").attr('width',1170).attr('height',890)
 	.attr("transform","translate(50,50)")
 	.attr("class","widget1");
 	
-	var forecast_svg = svg.append("g");
-	var monitor_svg = svg.append("g")
-	monitor_svg.attr("transform","translate(0,450)");
+	var chart_svg = svg.append("g").attr("transform","translate(10,10)");
+	var monitor_svg = svg.append("g").attr("transform","translate(10,480)");
 	
 	d3.json('http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=' + units +'&appid=' + apiid, function (jsondata) {
     
@@ -63,17 +62,21 @@ function loadWeatherData(cityName, unitSelected) {
 		weatherData.wind_speed = jsondata.wind.speed;
 		weatherData.wind_degree = jsondata.wind.deg;
 		console.log("weatherData",weatherData);
-		loadWeatherTable(weatherData);
-
-    	loadThermometer(weatherData.temperature, weatherData.temp_min, weatherData.temp_max, units, forecast_svg);
+// 		loadWeatherTable(weatherData);
+		loadWeatherTableSVG(weatherData, monitor_svg);
+		
+    	loadThermometer(weatherData.temperature, weatherData.temp_min, weatherData.temp_max, units, chart_svg);
 		
 		displayClockOrTable(clockTime, coordinate, monitor_svg);
 		
 		var img_url = generateImageUrl(12, coordinate);
     	loadGoogleImage(img_url, monitor_svg);
+
     });
 
-    loadForecastData(cityName, forecast_svg); 
+	var graph_svg = chart_svg.append("g").attr("transform","translate(125,0)");
+    loadForecastData(cityName, graph_svg); 
+    loadMonthlyAverageData(cityName, graph_svg);
 
 }
 
@@ -101,6 +104,11 @@ function loadForecastData(cityName, forecast_svg) {
 
 		
     });
+}
+
+function loadMonthlyAverageData(cityName, dashboard_svg) {
+	var averageData = {};
+	generateMonthlyAverageChart(averageData, dashboard_svg);
 }
 
 

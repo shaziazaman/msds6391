@@ -1,5 +1,5 @@
 var width = 100,
-    height = 200,
+    height = 365,
     maxTemp = 0,
     minTemp = 0,
     currentTemp = 0;
@@ -32,17 +32,17 @@ function loadThermometer(temp, min_temp, max_temp, units, dashboard_svg) {
     widgetsvg.attr('id','thermo');
    
     // creating widget
-    widgetsvg.append("rect").attr("x",10).attr("y",10).attr("rx",10).attr("ry",10)
+    widgetsvg.append("rect").attr("x",0).attr("y",0).attr("rx",10).attr("ry",10)
       .attr("width",width+20).attr("height", height+100)
       .attr("class","widget");
 
-    var textsvg = widgetsvg.append("text").attr("x",20).attr("y",35).attr("class","widget-heading");
+    var textsvg = widgetsvg.append("text").attr("x",20).attr("y",25).attr("class","widget-heading");
     textsvg.append("tspan").text("Current").attr("x",20).attr("dy",15);
     textsvg.append("tspan").text("  ").attr("x",20).attr("dy",15);
     textsvg.append("tspan").text("Temperature").attr("x",20).attr("dy",15);
 
     
-    var svg = widgetsvg.append("g").attr("transform","translate(20, 100)");
+    var svg = widgetsvg.append("g").attr("transform","translate(10, 90)");
 
 // Circle element for rounded tube top
 svg.append("circle")

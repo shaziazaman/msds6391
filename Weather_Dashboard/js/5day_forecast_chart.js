@@ -28,6 +28,16 @@ function generateAndLoadLineChart(data, dashboard_svg){
 		var data2 = data.sort(function(a,b){
 	      return x_dim_accessor(a) - x_dim_accessor(b);
 	    });
+
+	    var svg = dashboard_svg.append("g");
+
+	    // creating widget
+    svg.append("rect").attr("x",0).attr("y",0).attr("rx",10).attr("ry",10)
+      .attr("width",w+120).attr("height", h+130)
+      .attr("class","widget");
+
+    var textsvg = svg.append("text").attr("x",((w - 30)/2)).attr("y",25)
+    			.attr("class","widget-heading").text('Five Day Temperature Forecast');
 	    
 	    render(data2, dashboard_svg);
 
@@ -56,16 +66,16 @@ function render(data, dashboard_svg){
 	  
       // Add an SVG element with the desired dimensions and margin.
       var graph = dashboard_svg.append("g").attr('id','5-day-chart')
-      		.attr("transform", "translate(200,0)")
+      		.attr("transform", "translate(30,0)")
             .attr("width", w + m.left + m.right)
             .attr("height", h + m.top + m.bottom)
           .append("svg:g")
             .attr("transform", "translate(" + m.left + "," + m.right+ ")");
 
-      graph.append("text").style("font-size", "16px").text("Five Day Forecast");
+      graph.append("text").style("font-size", "16px");
 	
 	  // get datatime labels for x-axis
-	  var x_labels = data.map(function(d) {return d.dt_txt.substring(0,13);});
+	  var x_labels = data.map(function(d) {return d.dt_txt.substring(5,13);});
       // create yAxis
       var x_txt = d3.scale.ordinal()
     			.domain(x_labels)
