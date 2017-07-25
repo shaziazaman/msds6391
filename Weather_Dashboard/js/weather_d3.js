@@ -73,7 +73,7 @@ function loadWeatherData(cityName, unitSelected) {
     	loadGoogleImage(img_url, monitor_svg);
     });
 
-    loadForecastData(cityName, forecast_svg);
+    loadForecastData(cityName, forecast_svg); 
 
 }
 
