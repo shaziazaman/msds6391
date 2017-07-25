@@ -31,73 +31,7 @@ h3 {
 	color: #0000ff;
 	
 }
-img.resize {
-	max-width: 75%;
-	max-height:75%
-}
 
-img.resize-small {
-	max-width: 50%;
-	max-height:50%
-}
-table, tr, td {
-	border: 1px solid black;
-	width: 200px;
-}
-
-tr, td {
-	text-align: left;
-	padding: 8px;
-	width: 100px;
-}
-
-tr:nth-child(even) {
-	background-color: #f2f2f2
-}
-
-th {
-	background-color: #4CAF50;
-	color: white;
-}
-
-.leftpane{
-    width: 15%;
-    min-width: 250px;
-    height: available;
-    min-height: 400px;
-    float: left;
-    border-collapse: collapse;
-}
-
-.middlepane{
-   width: 10%;
-   min-width: 160px;
-   height: 55%;
-   min-height: 400px;
-   float: left;
-/*    background-color: #ff8000; */
-   border-collapse: collapse;
-}
-
-.rightpane{
-    width: available;
-    height: 55%;
-    position: relative;
-    margin-left: 50%;
-    border-collapse: collapse;
-}
-.bottompane {
-	width: available;
-    height: 45%;
-    float: left;
-    bottom: 60px
-    border-collapse: collapse;
-
-}
-canvas {
-	margin: 0;
-    padding-left: 20px;
-}
 
 /* tell the SVG path to be a thin blue line without any area fill */
 path {
@@ -166,4 +100,10 @@ opacity: 0.5;
 
 .widget1 {
 background-color:#f2f2f2;
+}
+
+.widget-heading {
+	fill: #0000ff;
+	font-size: 18px;
+	font-weight: bold;
 }
