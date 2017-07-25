@@ -68,7 +68,7 @@ function loadWeatherTableSVG(dataset, dashboard_svg) {
 	svg.append('g')
 		.append("text")
 		.attr("x", 120)
-		.attr("y", 20)
+		.attr("y", 30)
 		.attr("class","widget-heading")
 		.text('Weather Data');
 
@@ -76,13 +76,21 @@ function loadWeatherTableSVG(dataset, dashboard_svg) {
 
      //adding table weather talbe values
 	var transposeData = transposeWeatherDataIntoArray(dataset);	
-    var txtsvg=svg.append('g').attr("transform", "translate(0,30)");
-    
+
+    var txtsvg=svg.append('g').attr("transform", "translate(10,40)");
+	
+	var title_y_axis = 0;
+	var title_x_axis = 10;
+	
+	var value_x_axis = 200;
+	var value_y_axis = 10;
 
      txtsvg.selectAll("text")
                 .data(transposeData)
                 .enter()
                 .append("text")
+                .attr("x", title_x_axis)
+                .attr("y", function (d) { title_y_axis = title_y_axis + 30; return title_y_axis; })
                 .attr("class", "title")
                 .text(function(d){
                     return d.Type;
@@ -92,6 +100,8 @@ function loadWeatherTableSVG(dataset, dashboard_svg) {
                 .data(transposeData)
                 .enter()
                 .append("text")
+                .attr("x", value_x_axis)
+                .attr("y", function (d) { value_y_axis = value_y_axis + 30; return value_y_axis; })
                 .text(function(d){
                     return d.Value;
                 })
