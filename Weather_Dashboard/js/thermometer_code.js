@@ -39,7 +39,7 @@ function loadThermometer(temp, min_temp, max_temp, units, dashboard_svg) {
     var textsvg = widgetsvg.append("text").attr("x",15).attr("y",25).attr("class","widget-heading");
     textsvg.append("tspan").text("Current").attr("x",20).attr("dy",15);
     textsvg.append("tspan").text("  ").attr("x",20).attr("dy",15);
-    textsvg.append("tspan").text("Temperature").attr("x",20).attr("dy",15);
+    textsvg.append("tspan").text("Temperature").attr("x",15).attr("dy",15);
 
     
     var svg = widgetsvg.append("g").attr("transform","translate(10, 90)");

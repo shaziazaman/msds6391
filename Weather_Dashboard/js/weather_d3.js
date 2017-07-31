@@ -76,7 +76,7 @@ function loadWeatherData(cityName, unitSelected) {
 
 	var graph_svg = chart_svg.append("g").attr("transform","translate(125,0)");
     loadForecastData(cityName, graph_svg); 
-    loadMonthlyAverageData(cityName, graph_svg);
+    loadMonthlyAverageData(cityName, coordinate.lat, coordinate.lon, graph_svg);
 
 }
 
@@ -106,9 +106,23 @@ function loadForecastData(cityName, forecast_svg) {
     });
 }
 
-function loadMonthlyAverageData(cityName, dashboard_svg) {
-	var averageData = {};
-	generateMonthlyAverageChart(averageData, dashboard_svg);
+function loadMonthlyAverageData( cityName,coordinatelat, coordinatelon, dashboard_svg) {
+	var d = new Date("2015-03-25T12:00:00Z");
+	d3.json('http://api.openweathermap.org/pollution/v1/co/' + coordinatelat, coordiantelon + d + apiid), function (jsondata){
+	// api for CO
+	//http://api.openweathermap.org/pollution/v1/co/0.0,10.0/2016-01-02T15:04:05Z.json?appid={your-api-key}
+	    pollutionData.cnt = jsondata.cnt;
+		PollutionData = [];
+		for (i = 0; i < pollutionData.cnt; i++) { 
+			var obj = {};
+			obj.value = jsondata.list[i].data.value;
+			obj.pressure = jsondata.list[i].data.pressure;
+			obj.precision = jsondata.list[i].data.precision;
+			PollutionData.push(obj);
+		}
+	}
+	//var averageData = {};
+	generateMonthlyAverageChart(PollutionData, dashboard_svg);
 }
 
 
