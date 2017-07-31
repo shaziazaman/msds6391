@@ -72,11 +72,13 @@ function loadWeatherData(cityName, unitSelected) {
 		var img_url = generateImageUrl(12, coordinate);
     	loadGoogleImage(img_url, monitor_svg);
 
+    	loadPollutionData(cityName, coordinate.lat, coordinate.lon, graph_svg);
+
+
     });
 
 	var graph_svg = chart_svg.append("g").attr("transform","translate(125,0)");
     loadForecastData(cityName, graph_svg); 
-    loadMonthlyAverageData(cityName, coordinate.lat, coordinate.lon, graph_svg);
 
 }
 
@@ -106,23 +108,37 @@ function loadForecastData(cityName, forecast_svg) {
     });
 }
 
-function loadMonthlyAverageData( cityName,coordinatelat, coordinatelon, dashboard_svg) {
-	var d = new Date("2015-03-25T12:00:00Z");
-	d3.json('http://api.openweathermap.org/pollution/v1/co/' + coordinatelat, coordiantelon + d + apiid), function (jsondata){
+function loadPollutionData( cityName,coordinatelat, coordinatelon, dashboard_svg) {
+//	var d = new Date("2015-03-25T12:00:00Z");
+	var d = new Date();
+
+	var dateISOString = d.toISOString();
+
+	// updating dateISOString to current as get the latest data available upto now
+	dateISOString = 'current';
+	console.log("date for pollution data request", dateISOString);
+
+	var latlon = coordinatelat + ',' + coordinatelon;
+	latlon = '0,0';
+	console.log("lat,lon for pollution data request", latlon);
+
+	var request_url = 'http://api.openweathermap.org/pollution/v1/co/' + latlon + '/' + dateISOString + '.json?appid='+ apiid;
+	console.log("Pollution data request url", request_url)
+	
+	d3.json(request_url, function (jsondata){
 	// api for CO
 	//http://api.openweathermap.org/pollution/v1/co/0.0,10.0/2016-01-02T15:04:05Z.json?appid={your-api-key}
-	    pollutionData.cnt = jsondata.cnt;
-		PollutionData = [];
-		for (i = 0; i < pollutionData.cnt; i++) { 
-			var obj = {};
-			obj.value = jsondata.list[i].data.value;
-			obj.pressure = jsondata.list[i].data.pressure;
-			obj.precision = jsondata.list[i].data.precision;
-			PollutionData.push(obj);
-		}
-	}
-	//var averageData = {};
-	generateMonthlyAverageChart(PollutionData, dashboard_svg);
+	    console.log("pollution data response", jsondata)
+
+	    if( jsondata != null) {
+			var datatime = jsondata.time;
+			var PollutionData = jsondata.data;
+
+			if( PollutionData != null) {
+				generatePollutionChart(PollutionData, dashboard_svg);
+			}
+	    }
+	});
 }
 
 
