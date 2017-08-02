@@ -1,35 +1,13 @@
-	// define dimensions of graph
-	  var p_m = {top: 0, right: 50, bottom: 200, left: 50}; // margins
-	  var p_w = 1000 - m.left - m.right; // width
-	  var p_h = 300 - m.top - m.bottom; // height
-	  
-	  var p_x_dim_accessor = function(d){return d.pressure};
-	  var p_y_dim_accessor = function(d){return d.value};
+// define dimensions of graph
+  var p_m = {top: 0, right: 50, bottom: 200, left: 50}; // margins
+  var p_w = 1000 - m.left - m.right; // width
+  var p_h = 300 - m.top - m.bottom; // height
 
-	  var p_x_range;
-	  var p_y_range;
-	
+  var p_x_dim_accessor = function(d){return d.pressure};
+  var p_y_dim_accessor = function(d){return d.value};
 
-
-// function generatePollutionChart(data, dashboard_svg) {
-// 	var svg = dashboard_svg.append("g").attr("transform", "translate(0,235)");
-
-// 	    // creating widget
-//     svg.append("rect").attr("x",0).attr("y",0).attr("rx",10).attr("ry",10)
-//       .attr("width",1020).attr("height", 230)
-//       .attr("class","widget");
-
-// 	// adding heading for widget
-// 	svg.append('g')
-// 		.append("text")
-// 		.attr("x", 400)
-// 		.attr("y", 25)
-// 		.attr("class","widget-heading")
-// 		.text('Pollution Chart');
-
-// }
-
-	  // plot with data json array passed, we'll plot with a line (this array represents only the Y values, X will just be the index location)
+  var p_x_range;
+  var p_y_range;
 
 function generatePollutionChart(data, dashboard_svg){
 
@@ -85,10 +63,10 @@ function render_bar(data, dashboard_svg){
       // Add an SVG element with the desired dimensions and margin.
       var graph = dashboard_svg.append("g").attr('id','pollution-chart')
       		.attr("transform", "translate(30,0)")
-            .attr("width", w + m.left + m.right)
-            .attr("height", h + m.top + m.bottom)
+            .attr("width", p_w + p_m.left + p_m.right)
+            .attr("height", p_h + p_m.top + p_m.bottom)
           .append("svg:g")
-            .attr("transform", "translate(" + m.left + "," + m.right+ ")");
+            .attr("transform", "translate(" + p_m.left + "," + p_m.right+ ")");
 
       graph.append("text").style("font-size", "16px");
 	
