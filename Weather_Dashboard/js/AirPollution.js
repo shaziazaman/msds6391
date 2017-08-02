@@ -104,15 +104,15 @@ function render_bar(data, dashboard_svg){
             .attr("transform", "translate(-25,0)")
             .call(yAxisLeft);
       
-      //Bar Chart
-      //svg.selectAll("bar")
-      //.data(data)
-      //.enter().append("rect")
-      //.style("fill", "steelblue")
-      //.attr("x", function(d) { return x(d.pressure); })
-      //.attr("width", x.rangeBand())
-      //.attr("y", function(d) { return y(d.value); })
-      //.attr("height", function(d) { return height - y(d.value); });
+     // Bar Chart
+      svg.selectAll("bar")
+      .data(data)
+      .enter().append("rect")
+      .style("fill", "steelblue")
+      .attr("x", function(d) { return x(d.pressure); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", function(d) { return height - y(d.value); });
 
 
         // Add the line by appending an svg:path element with the data line we created above

@@ -117,8 +117,15 @@ function loadPollutionData( cityName,coordinatelat, coordinatelon, dashboard_svg
 	// updating dateISOString to current as get the latest data available upto now
 	dateISOString = 'current';
 	console.log("date for pollution data request", dateISOString);
+	console.log(coordinatelat);
+	console.log(coordinatelon);
+	var coordinatelat_trunk = coordinatelat.toFixed(0);
+	var coordinatelon_trunk = coordinatelon.toFixed(0);
+	console.log(coordinatelat_trunk);
+	console.log(coordinatelon_trunk);
 
 	var latlon = coordinatelat + ',' + coordinatelon;
+	
 	latlon = '0,0';
 	console.log("lat,lon for pollution data request", latlon);
 
