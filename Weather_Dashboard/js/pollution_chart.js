@@ -11,20 +11,21 @@
 
 function generatePollutionChart(data, dashboard_svg){
 
-		p_x_range = [
-	      d3.min(data, p_x_dim_accessor),
-	      d3.max(data, p_x_dim_accessor)
-	    ];
-
-	    p_y_range = [
-	      d3.min(data, p_y_dim_accessor),
-	      d3.max(data, p_y_dim_accessor)
-	    ];
-
 		var data2 = data.sort(function(a,b){
-	      return x_dim_accessor(a) - x_dim_accessor(b);
+	      return d3.ascending(a.pressure, b.pressure);
 	    });
 
+		p_x_range = [
+	      d3.min(data2, p_x_dim_accessor),
+	      d3.max(data2, p_x_dim_accessor)
+	    ];
+		console.log("x range", p_x_range);
+	    p_y_range = [
+	      d3.min(data2, p_y_dim_accessor),
+	      d3.max(data2, p_y_dim_accessor)
+	    ];
+		console.log("y range", p_y_range);
+		
 	    var svg = dashboard_svg.append("g").attr("transform", "translate(0,235)");;
 
 	    // creating widget
@@ -40,26 +41,7 @@ function generatePollutionChart(data, dashboard_svg){
 }
 
 function render_bar(data, dashboard_svg){
-    
-    // X scale will fit all values from data[] within pixels 0-w
-    var x = d3.scale.linear().domain(p_x_range).range([0, p_w]);
-    // Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain for the y-scale: bigger is up!)
-    var y = d3.scale.linear().domain(p_y_range).range([p_h, 0]);
-      // automatically determining max range can work something like this
-      // var y = d3.scale.linear().domain([0, d3.max(data)]).range([h, 0]);
 
-    // create a line function that can convert data[] into x and y points
-    var line = d3.svg.line()
-      // assign the X function to plot our line as we wish
-      .x(function(d,i) { 
-        return x(p_x_dim_accessor(d)); 
-      })
-      .y(function(d) { 
-        return y(p_y_dim_accessor(d)); 
-      })
-	  
-
-	  
       // Add an SVG element with the desired dimensions and margin.
       var graph = dashboard_svg.append("g").attr('id','pollution-chart')
       		.attr("transform", "translate(30,0)")
@@ -69,8 +51,13 @@ function render_bar(data, dashboard_svg){
             .attr("transform", "translate(" + p_m.left + "," + p_m.right+ ")");
 
       graph.append("text").style("font-size", "16px");
+
+      var x = d3.scale.ordinal().rangeBands([0, p_w], 0.05);
+	  x.domain(data.map(function(d) { return d.pressure; }));
+  	
+  	  // create x-Axis
+      var xAxis = d3.svg.axis().scale(x);      
 	
-      var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
       // Add the x-axis.
       graph.append("svg:g")
             .attr("class", "x axis")
@@ -85,28 +72,34 @@ function render_bar(data, dashboard_svg){
                 });;
 
 
-      // create left yAxis
-      var yAxisLeft = d3.svg.axis().scale(y).ticks(4).orient("left");
+   	var y = d3.scale.linear().domain(p_y_range).range([p_h, 0]);
+   	console.log("y", y);
+	  // create left yAxis
+      var yAxisLeft = d3.svg.axis().scale(y).ticks(6).orient("left");
       // Add the y-axis to the left
       graph.append("svg:g")
             .attr("class", "y axis")
             .attr("transform", "translate(-25,0)")
             .call(yAxisLeft);
       
+	y.domain(p_y_range);
+
+		console.log("rangeBand", x.rangeBand);
       //Bar Chart
-      //svg.selectAll("bar")
-      //.data(data)
-      //.enter().append("rect")
-      //.style("fill", "steelblue")
-      //.attr("x", function(d) { return x(d.pressure); })
-      //.attr("width", x.rangeBand())
-      //.attr("y", function(d) { return y(d.value); })
-      //.attr("height", function(d) { return height - y(d.value); });
+       graph
+       .selectAll("bar")
+      .data(data)
+      .enter().append("rect")
+      .style("fill", "steelblue")
+      .attr("x", function(d) { return x(d.pressure); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", function(d) { return p_h - y(d.value); });
 
 
         // Add the line by appending an svg:path element with the data line we created above
       // do this AFTER the axes above so that the line is above the tick-lines
-      graph.append("svg:path").attr("d", line(data));
+//       graph.append("svg:path").attr("d", line(data));
 		
   }
 
