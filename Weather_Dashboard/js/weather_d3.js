@@ -119,14 +119,14 @@ function loadPollutionData( cityName,coordinatelat, coordinatelon, dashboard_svg
 	console.log("date for pollution data request", dateISOString);
 	console.log(coordinatelat);
 	console.log(coordinatelon);
-	var coordinatelat_trunk = coordinatelat.toFixed(0);
-	var coordinatelon_trunk = coordinatelon.toFixed(0);
-	console.log(coordinatelat_trunk);
-	console.log(coordinatelon_trunk);
+	var coordinatelat_trunc = coordinatelat.toFixed(0);
+	var coordinatelon_trunc = coordinatelon.toFixed(0);
+	console.log(coordinatelat_trunc);
+	console.log(coordinatelon_trunc);
 
-	var latlon = coordinatelat + ',' + coordinatelon;
+	var latlon = coordinatelat_trunc + ',' + coordinatelon_trunc;
 	
-	latlon = '0,0';
+// 	latlon = '0,0';
 	console.log("lat,lon for pollution data request", latlon);
 
 	var request_url = 'http://api.openweathermap.org/pollution/v1/co/' + latlon + '/' + dateISOString + '.json?appid='+ apiid;
