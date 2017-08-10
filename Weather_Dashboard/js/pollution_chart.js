@@ -6,15 +6,26 @@
   var p_x_dim_accessor = function(d){return d.pressure};
   var p_y_dim_accessor = function(d){return d.value};
 
-  var p_x_range;
+//   var p_x_range;
   var p_y_range;
+	
+function formatAndSortData(data) {
+	var data2 = data.sort(function(a,b){
+	      return d3.ascending(a.pressure, b.pressure);
+	    }); 
+
+	 for (i = 0; i < data2.length; i++) { 
+			data2[i].pressure = data2[i].pressure.toFixed(5);
+// 			data2[i].value = data2[i].value.toExponential();
+		}
+	 return data2;
+}
 
 function generatePollutionChart(data, dashboard_svg){
 
-		var data2 = data.sort(function(a,b){
-	      return d3.ascending(a.pressure, b.pressure);
-	    });
-
+		var data2 = formatAndSortData(data);
+		console.log("pollution data", data2);
+		
 		p_x_range = [
 	      d3.min(data2, p_x_dim_accessor),
 	      d3.max(data2, p_x_dim_accessor)
@@ -52,8 +63,8 @@ function render_bar(data, dashboard_svg){
 
       graph.append("text").style("font-size", "16px");
 
-      var x = d3.scale.ordinal().rangeBands([0, p_w], 0.05);
-	  x.domain(data.map(function(d) { return d.pressure; }));
+      var x = d3.scale.ordinal().domain(p_x_range).rangeBands([0, p_w]);
+	  x.domain(data.map(p_x_dim_accessor));
   	
   	  // create x-Axis
       var xAxis = d3.svg.axis().scale(x);      
@@ -95,11 +106,6 @@ function render_bar(data, dashboard_svg){
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.value); })
       .attr("height", function(d) { return p_h - y(d.value); });
-
-
-        // Add the line by appending an svg:path element with the data line we created above
-      // do this AFTER the axes above so that the line is above the tick-lines
-//       graph.append("svg:path").attr("d", line(data));
 		
   }
 
