@@ -6,7 +6,7 @@
   var p_x_dim_accessor = function(d){return d.pressure};
   var p_y_dim_accessor = function(d){return d.value};
 
-//   var p_x_range;
+  var p_x_range;
   var p_y_range;
 	
 function formatAndSortData(data) {
