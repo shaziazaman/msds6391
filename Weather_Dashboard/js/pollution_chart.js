@@ -3,12 +3,6 @@
   var p_w = 1000 - m.left - m.right; // width
   var p_h = 300 - m.top - m.bottom; // height
 
-  var p_x_dim_accessor = function(d){return d.pressure};
-  var p_y_dim_accessor = function(d){return d.value};
-
-  var p_x_range;
-  var p_y_range;
-	
 function formatAndSortData(data) {
 	var data2 = data.sort(function(a,b){
 	      return d3.ascending(a.pressure, b.pressure);
@@ -16,7 +10,6 @@ function formatAndSortData(data) {
 
 	 for (i = 0; i < data2.length; i++) { 
 			data2[i].pressure = data2[i].pressure.toFixed(5);
-// 			data2[i].value = data2[i].value.toExponential();
 		}
 	 return data2;
 }
@@ -25,17 +18,6 @@ function generatePollutionChart(data, dashboard_svg){
 
 		var data2 = formatAndSortData(data);
 		console.log("pollution data", data2);
-		
-		p_x_range = [
-	      d3.min(data2, p_x_dim_accessor),
-	      d3.max(data2, p_x_dim_accessor)
-	    ];
-		console.log("x range", p_x_range);
-	    p_y_range = [
-	      d3.min(data2, p_y_dim_accessor),
-	      d3.max(data2, p_y_dim_accessor)
-	    ];
-		console.log("y range", p_y_range);
 		
 	    var svg = dashboard_svg.append("g").attr("transform", "translate(0,235)");;
 
@@ -63,8 +45,9 @@ function render_bar(data, dashboard_svg){
 
       graph.append("text").style("font-size", "16px");
 
-      var x = d3.scale.ordinal().domain(p_x_range).rangeBands([0, p_w]);
-	  x.domain(data.map(p_x_dim_accessor));
+      var x = d3.scale.ordinal()
+      			.domain(data.map(function(d){return d.pressure;}))
+      			.rangeBands([0, p_w]);
   	
   	  // create x-Axis
       var xAxis = d3.svg.axis().scale(x);      
@@ -82,31 +65,30 @@ function render_bar(data, dashboard_svg){
                 return "rotate(-90)" 
                 });;
 
+	var y_min = d3.max(data,function(d) {return d.value;});
+   	var y = d3.scale.linear()
+   				.domain(d3.extent(data, function(d){return d.value;}))
+   				.range([p_h, y_min]);
 
-   	var y = d3.scale.linear().domain(p_y_range).range([p_h, 0]);
-   	console.log("y", y);
-	  // create left yAxis
-      var yAxisLeft = d3.svg.axis().scale(y).ticks(6).orient("left");
-      // Add the y-axis to the left
-      graph.append("svg:g")
-            .attr("class", "y axis")
-            .attr("transform", "translate(-25,0)")
-            .call(yAxisLeft);
-      
-	y.domain(p_y_range);
+   	// create left yAxis
+    var yAxisLeft = d3.svg.axis().scale(y).ticks(6).orient("left");
 
-		console.log("rangeBand", x.rangeBand);
-      //Bar Chart
-       graph
-       .selectAll("bar")
-      .data(data)
-      .enter().append("rect")
-      .attr("class", function(d){return d.value < 0 ? "negative" : "positive";})
-//       .style("fill", "steelblue")
-      .attr("x", function(d) { return x(d.pressure); })
-      .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d.value); })
-      .attr("height", function(d) { return p_h - y(d.value); });
-		
-  }
+  	// Add the y-axis to the left
+  	graph.append("svg:g")
+		.attr("class", "y axis")
+		.attr("transform", "translate(-5,0)")
+		.call(yAxisLeft);
+
+	console.log("rangeBand", x.rangeBand);
+  	//Bar Chart
+   	graph.selectAll("bar")
+  		.data(data)
+  		.enter().append("rect")
+  		.attr("class", function(d){return d.value < 0 ? "negative" : "positive";})
+  		.attr("x", function(d) { return x(d.pressure); })
+  		.attr("width", x.rangeBand())
+  		.attr("y", function(d) { return y(Math.max(0, d.value)); })
+  		.attr("height", function(d) { return Math.abs(y(d.value) - y(0)) });
+
+}
 
