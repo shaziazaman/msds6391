@@ -36,8 +36,8 @@ function generateAndLoadLineChart(data, dashboard_svg){
       .attr("width",w+120).attr("height", h+130)
       .attr("class","widget");
 
-    var textsvg = svg.append("text").attr("x",((w - 300)/2)).attr("y",25)
-    			.attr("class","widget-heading").text('Five Day Temperature Forecast - Temperature vs. Data & Time');
+    var textsvg = svg.append("text").attr("x",((w - 250)/2)).attr("y",25)
+    			.attr("class","widget-heading").text('Five Day Temperature Forecast');
 	    
 	    render(data2, dashboard_svg);
 

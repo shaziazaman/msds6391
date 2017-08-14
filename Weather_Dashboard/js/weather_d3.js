@@ -108,7 +108,6 @@ function loadForecastData(cityName, forecast_svg) {
 }
 
 function loadPollutionData( cityName,coordinatelat, coordinatelon, dashboard_svg) {
-//	var d = new Date("2015-03-25T12:00:00Z");
 	var d = new Date();
 
 	var dateISOString = d.toISOString();

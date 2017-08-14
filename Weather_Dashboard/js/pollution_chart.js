@@ -27,7 +27,7 @@ function generatePollutionChart(data, dashboard_svg){
       .attr("class","widget");
 
     svg.append("text").attr("x",((p_w - 120)/2)).attr("y",25)
-    			.attr("class","widget-heading").text('Air Pollution Chart - Pollution vs. Pressure');
+    			.attr("class","widget-heading").text('Air Pollution vs. Pressure');
 	   
 	render_bar(data2, svg);
 
