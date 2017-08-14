@@ -8,8 +8,7 @@ var bottomY = height - 5,
     topY = 5,
     bulbRadius = 30,
     tubeWidth = 25.5,
-    tubeBorderWidth = 1,
-    tubeBorderColor = "#999999";
+    tubeBorderWidth = 1;
 
 var bulb_cy = bottomY - bulbRadius,
     bulb_cx = width/2,
@@ -42,154 +41,136 @@ function loadThermometer(temp, min_temp, max_temp, units, dashboard_svg) {
     
     var svg = widgetsvg.append("g").attr("transform","translate(10, 90)");
 
-// Circle element for rounded tube top
-svg.append("circle")
-  .attr("r", tubeWidth/2)
-  .attr("cx", width/2)
-  .attr("cy", top_cy)
-  .style("fill", "#FFFFFF")
-  .style("stroke", tubeBorderColor)
-  .style("stroke-width", tubeBorderWidth + "px");
+  // Circle element for rounded tube top
+  svg.append("circle")
+    .attr("r", tubeWidth/2)
+    .attr("cx", width/2)
+    .attr("cy", top_cy)
+    .attr('class','tub');
 
 
-// Rect element for tube
-svg.append("rect")
-  .attr("x", width/2 - tubeWidth/2)
-  .attr("y", top_cy)
-  .attr("height", bulb_cy - top_cy)
-  .attr("width", tubeWidth)
-  .style("shape-rendering", "crispEdges")
-  .style("fill", "#FFFFFF")
-  .style("stroke", tubeBorderColor)
-  .style("stroke-width", tubeBorderWidth + "px");
+  // Rect element for tube
+  svg.append("rect")
+    .attr("x", width/2 - tubeWidth/2)
+    .attr("y", top_cy)
+    .attr("height", bulb_cy - top_cy)
+    .attr("width", tubeWidth)
+    .attr('class','tub');
 
 
-// White fill for rounded tube top circle element
-// to hide the border at the top of the tube rect element
-svg.append("circle")
-  .attr("r", tubeWidth/2 - tubeBorderWidth/2)
-  .attr("cx", width/2)
-  .attr("cy", top_cy)
-  .style("fill", "#FFFFFF")
-  .style("stroke", "none")
+  // White fill for rounded tube top circle element
+  // to hide the border at the top of the tube rect element
+  svg.append("circle")
+    .attr("r", tubeWidth/2 - tubeBorderWidth/2)
+    .attr("cx", width/2)
+    .attr("cy", top_cy)
+    .attr('class', 'tub');
 
 
 
-// Main bulb of thermometer (empty), white fill
-svg.append("circle")
-  .attr("r", bulbRadius)
-  .attr("cx", bulb_cx)
-  .attr("cy", bulb_cy)
-  .style("fill", "#FFFFFF")
-  .style("stroke", tubeBorderColor)
-  .style("stroke-width", tubeBorderWidth + "px");
+  // Main bulb of thermometer (empty), white fill
+  svg.append("circle")
+    .attr("r", bulbRadius)
+    .attr("cx", bulb_cx)
+    .attr("cy", bulb_cy)
+    .attr('class','tub');
 
 
-// Rect element for tube fill colour
-svg.append("rect")
-  .attr("x", width/2 - (tubeWidth - tubeBorderWidth)/2)
-  .attr("y", top_cy)
-  .attr("height", bulb_cy - top_cy)
-  .attr("width", tubeWidth - tubeBorderWidth)
-//   .attr('class', 'mercury');
-  .style("shape-rendering", "crispEdges")
-  .style("fill", "#FFFFFF")
-  .style("stroke", "none");
+  // Rect element for tube fill colour
+  svg.append("rect")
+    .attr("x", width/2 - (tubeWidth - tubeBorderWidth)/2)
+    .attr("y", top_cy)
+    .attr("height", bulb_cy - top_cy)
+    .attr("width", tubeWidth - tubeBorderWidth)
+    .attr('class', 'tub')
+    .style("stroke", "none");
 
 
-var domain = fahrenheit_range;
-var step = 10;
+  var domain = fahrenheit_range;
+  var step = 10;
 
-if(temp_units == "metric"){
-  domain = celsius_range;
-  step = 5;
-}
-
-// D3 scale object
-var scale = d3.scale.linear()
-  .range([bulb_cy - bulbRadius/2 - 8.5, top_cy])
-  .domain(domain);
-
-
-// Max and min temperature lines
-[minTemp, maxTemp].forEach(function(t) {
-
-  var isMax = (t == maxTemp),
-      label = (isMax ? "max" : "min"),
-      textOffset = (isMax ? -4 : 4);
-
-  svg.append("line")
-    .attr("id", label + "Line")
-    .attr("x1", width/2 - tubeWidth/2)
-    .attr("x2", width/2 + tubeWidth/2 + 22)
-    .attr("y1", scale(t))
-    .attr("y2", scale(t))
-    .style("stroke", tubeBorderColor)
-    .style("stroke-width", "1px")
-    .style("shape-rendering", "crispEdges");
-
-  svg.append("text")
-    .attr('class', 'widget-text')
-    .attr("x", width/2 + tubeWidth/2 + 2)
-    .attr("y", scale(t) + textOffset)
-    .attr("dy", isMax ? null : "0.75em")
-    .text(label)
-    .attr('class', function(){return isMax? "max" : "min";});
-});
-
-
-var tubeFill_bottom = bulb_cy,
-    tubeFill_top = scale(currentTemp);
-
-// Rect element for the red mercury column
-svg.append("rect")
-  .attr("x", width/2 - (tubeWidth - 10)/2)
-  .attr("y", tubeFill_top)
-  .attr("width", tubeWidth - 10)
-  .attr("height", tubeFill_bottom - tubeFill_top)
-  .attr('class', 'mercury');
-
-
-// Main thermometer bulb fill
-svg.append("circle")
-  .attr("r", bulbRadius - 6)
-  .attr("cx", bulb_cx)
-  .attr("cy", bulb_cy)
-  .attr('class','mercury');
-
-
-// Values to use along the scale ticks up the thermometer
-var tickValues = d3.range((domain[1] - domain[0])/step + 1).map(function(v) { return domain[0] + v * step; });
-
-
-// D3 axis object for the temperature scale
-var axis = d3.svg.axis()
-  .scale(scale)
-  .innerTickSize(7)
-  .outerTickSize(0)
-  .tickValues(tickValues)
-  .orient("left");
-
-// Add the axis to the image
-var svgAxis = svg.append("g")
-  .attr("id", "tempScale")
-  .attr("transform", "translate(" + (width/2 - tubeWidth/2) + ",0)")
-  .call(axis);
-
-// Format text labels
-svgAxis.selectAll(".tick text");
-
-// Set main axis line to no stroke or fill
-svgAxis.select("path")
-  .style("stroke", "none")
-  .style("fill", "none")
-
-// Set the style of the ticks 
-svgAxis.selectAll(".tick line")
-  .style("stroke", tubeBorderColor)
-  .style("shape-rendering", "crispEdges")
-  .style("stroke-width", "1px");
+  if(temp_units == "metric"){
+    domain = celsius_range;
+    step = 5;
   }
+
+  // D3 scale object
+  var scale = d3.scale.linear()
+    .range([bulb_cy - bulbRadius/2 - 8.5, top_cy])
+    .domain(domain);
+
+
+  // Max and min temperature lines
+  [minTemp, maxTemp].forEach(function(t) {
+
+    var isMax = (t == maxTemp),
+        label = (isMax ? "max" : "min"),
+        textOffset = (isMax ? -4 : 4);
+
+    svg.append("line")
+      .attr("id", label + "Line")
+      .attr("x1", width/2 - tubeWidth/2)
+      .attr("x2", width/2 + tubeWidth/2 + 22)
+      .attr("y1", scale(t))
+      .attr("y2", scale(t)).attr('class','tub');
+
+    svg.append("text")
+      .attr('class', 'widget-text')
+      .attr("x", width/2 + tubeWidth/2 + 2)
+      .attr("y", scale(t) + textOffset)
+      .attr("dy", isMax ? null : "0.75em")
+      .text(label)
+      .attr('class', function(){return isMax? "max" : "min";});
+  });
+
+
+  var tubeFill_bottom = bulb_cy,
+      tubeFill_top = scale(currentTemp);
+
+  // Rect element for the red mercury column
+  svg.append("rect")
+    .attr("x", width/2 - (tubeWidth - 10)/2)
+    .attr("y", tubeFill_top)
+    .attr("width", tubeWidth - 10)
+    .attr("height", tubeFill_bottom - tubeFill_top)
+    .attr('class', 'mercury');
+
+
+  // Main thermometer bulb fill
+  svg.append("circle")
+    .attr("r", bulbRadius - 6)
+    .attr("cx", bulb_cx)
+    .attr("cy", bulb_cy)
+    .attr('class','mercury');
+
+
+  // Values to use along the scale ticks up the thermometer
+  var tickValues = d3.range((domain[1] - domain[0])/step + 1).map(function(v) { return domain[0] + v * step; });
+
+
+  // D3 axis object for the temperature scale
+  var axis = d3.svg.axis()
+    .scale(scale)
+    .innerTickSize(7)
+    .outerTickSize(0)
+    .tickValues(tickValues)
+    .orient("left");
+
+  // Add the axis to the image
+  var svgAxis = svg.append("g")
+    .attr("id", "tempScale")
+    .attr("transform", "translate(" + (width/2 - tubeWidth/2) + ",0)")
+    .call(axis);
+
+  // Format text labels
+  svgAxis.selectAll(".tick text");
+
+  // Set main axis line to no stroke or fill
+  svgAxis.select("path")
+    .style("stroke", "none")
+    .style("fill", "none");
+
+}
 
 
 

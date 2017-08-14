@@ -35,6 +35,16 @@ h3 {
 
 /* chart styles */
 
+.tick text {
+	fill: black;
+	font-size: 16px;	
+}
+
+.tick line {
+	fill: none;
+	stroke: black;
+}
+
 path {
   stroke: steelblue;
   stroke-width: 2;
@@ -47,11 +57,6 @@ path {
 
 .x.axis line {
   stroke: black;
-}
-
-.x.axis text {
-	fill: black;
-	font-size: 16px;	
 }
 
 .x.axis .minor {
@@ -67,11 +72,6 @@ path {
   stroke: black;
 }
 
-.y.axis text {
-	fill: black;
-	font-size: 16px;		
-}
-
 .positive {
 		fill: steelblue;
 		fill-opacity: 0.9;
@@ -82,33 +82,31 @@ path {
 		fill-opacity: 0.9;
 }
 
+
 /* thermometer styles */
-
-.tick text {
-	fill: black;
-	font-size: 16px;	
-}
-
-
-.tick line {
-	fill: none;
-	stroke: black;
-}
 
 .min {
 		fill: steelblue;
 		fill-opacity: 0.9;
+		font-weight: bold;
 }
 
 .max {
 		fill: red;
 		fill-opacity: 0.9;
+		font-weight: bold;
 }
 
 .mercury {
 	fill: red;
 	stroke: red;
 	stroke-width: 2px;
+}
+
+.tub {
+	stroke: black;
+	stroke-width: 1px;
+	fill: white;
 }
 
 /* clock styles */
