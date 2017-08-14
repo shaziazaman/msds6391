@@ -91,15 +91,11 @@ path {
 
 /* clock styles */
 
-.sunrise-hour-hand{
-	stroke-width:12;
+.sunlight{
+	stroke-width:1px;
 	stroke-linecap:round;
-	stroke: #e2de2b
-}
-.sunset-hour-hand{
-	stroke-width:12;
-	stroke-linecap:round;
-	stroke: #560202
+	stroke: steelblue;
+	fill: #e9d236
 }
 
 .hands-cover{

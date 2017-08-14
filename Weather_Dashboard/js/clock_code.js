@@ -17,20 +17,7 @@ var hourScale = d3.scale.linear()
 	.range([0,354])
 	.domain([0,24]);
 
-var handData = [
-	{
-		type:'sunrise-hour',
-		value:0,
-		length:-sunriseHandLength,
-		scale:hourScale
-	},
-	{
-		type:'sunset-hour',
-		value:0,
-		length:-sunsetHandLength,
-		scale:hourScale
-	}
-];
+var handData = {sunrise:0, sunset:0};
 
 var radioLabels = ['Table','Clock'];
 
@@ -126,47 +113,30 @@ function drawDayLightClock(data, offset, svg) {
 			.attr('y',0)
 			.attr('r',clockRadius/20);
 
-	var hands = face.append('g').attr('id','clock-hands');
+	updateClockData(data, offset);
+	
+	var hands = face.append('g').attr('id','sunlight-band');
 
-	hands.selectAll('line')
-		.data(handData)
-		.enter()
-		.append('line')
-		.attr('class', function(d){
-			return d.type + '-hand';
-		})
-		.attr('x1',0)
-		.attr('y1',function(d){
-			return d.balance ? d.balance : 0;
-		})
-		.attr('x2',0)
-		.attr('y2',function(d){
-			return d.length;
-		})
-		.attr('transform',function(d){
-			return 'rotate('+ d.scale(d.value) +')';
-		});
+	var arc = d3.svg.arc()
+		.outerRadius(sunriseHandLength)
+		.innerRadius(0)
+		.startAngle(hourScale(handData.sunrise)*radians)
+		.endAngle(hourScale(handData.sunset)*radians);
 
-		loadClockTableGroup(data, offset, svg);
+	hands.append('path')
+		.attr('d',arc)
+		.attr('class','sunlight');
+		
+	loadClockTableGroup(data, offset, svg);
 
-		updateClockData(data, offset);
-		moveClockHands();
 }
 
-function moveClockHands(){
-	d3.select('#clock-hands').selectAll('line')
-	.data(handData)
-		.transition()
-		.attr('transform',function(d){
-			return 'rotate('+ d.scale(d.value) +')';
-		});
-}
 
 function updateClockData(data, offset){
 	sunrise = convertToUTCDate(data.sunrise, offset);
 	sunset = convertToUTCDate(data.sunset, offset);
-	handData[0].value = sunrise.hours + sunrise.minutes/60;
-	handData[1].value = sunset.hours + sunset.minutes/60;
+	handData.sunrise = sunrise.hours + sunrise.minutes/60;
+	handData.sunset = sunset.hours + sunset.minutes/60;
 }
 
 function loadClockTableGroup(data, offset, svg) {
@@ -190,50 +160,6 @@ function loadClockTableGroup(data, offset, svg) {
     			.attr("y", 25)
     			.text('Sunset Time: ' + time.sunset_time);			
 }
-
-// function loadClockTable(data, offset) {
-// 	console.log("adding table");
-// 	d3.select("body").select("#clock_table").remove();
-	
-// 	var table = d3.select("body").select("div#clock").append("table").attr('id','clock_table');
-	
-// 	var time = {};
-// 	time.monitor_time = convertToUTCDateString(data.time, offset);
-// 	time.sunrise_time = convertToUTCDateString(data.sunrise, offset);
-// 	time.sunset_time = convertToUTCDateString(data.sunset, offset);
-
-// 	//transpose data as array
-// 	var transposeTimeData = transposeWeatherDataIntoArray(time);
-
-// 	//get column list
-// 	var columns = Object.keys(transposeTimeData[0]);
-
-// 	var thead = table.append("thead");
-// 	var tbody = table.append("tbody");
-
-// 	thead.append('tr')
-// 		  .selectAll('th')
-// 		  .data(columns).enter()
-// 		  .append('th')
-// 		    .text(function (column) { return column; });
-
-// 	// create a row for each object in the data
-// 	var rows = tbody.selectAll('tr')
-// 	  .data(transposeTimeData)
-// 	  .enter()
-// 	  .append('tr');
-
-// 	// create a cell in each row for each column
-// 	var cells = rows.selectAll('td')
-// 	  .data(function (row) {
-// 		return columns.map(function (column) {
-// 		  return {column: column, value: row[column]};
-// 		});
-// 	  })
-// 	  .enter()
-// 	  .append('td')
-// 		.text(function (d) { return d.value; });
-// }
 
 function transposeClockDataIntoArray(data) {
 	var tdata = [];
