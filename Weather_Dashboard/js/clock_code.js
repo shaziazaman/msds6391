@@ -70,10 +70,10 @@ function drawDayLightClock(data, offset, svg) {
 	// adding heading for widget
 	svg.append('g')
 		.append("text")
-		.attr("x", 30)
+		.attr("x", 70)
 		.attr("y", 25)
 		.attr("class","widget-heading")
-		.text('Sunrise and Sunset Time');
+		.text('Daylight Time');
 
     var face = svg.append('g')
 		.attr('id','clock_face')
