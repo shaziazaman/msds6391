@@ -86,7 +86,7 @@ function render_bar(data, dashboard_svg){
   		.enter().append("rect")
   		.attr("class", function(d){return d.value < 0 ? "negative" : "positive";})
   		.attr("x", function(d) { return x(d.pressure); })
-  		.attr("width", x.rangeBand())
+  		.attr("width", x.rangeBand() - 5)
   		.attr("y", function(d) { return y(Math.max(0, d.value)); })
   		.attr("height", function(d) { return Math.abs(y(d.value) - y(0)) });
 
