@@ -14,28 +14,21 @@
 <script src="js/monthly_average_chart.js"></script>
 <script src="js/pollution_chart.js"></script>
 <script src="js/weather_d3.js"></script>
-<!-- <div id="header">
-    <script type="text/javascript">
-        createHeader()
-    </script>
-</div>
-<div id="footer">
-    <script type="text/javascript">
-        createFooter()
-    </script>
-</div> -->
 <div>
+    <section>
     <h3>Weather Forecast using D3</h3>
-    <FORM NAME="cityWeatherForm" ACTION="" METHOD="POST">
-        Enter City to get weather information:&nbsp;&nbsp; <INPUT TYPE="text"
-            NAME="cityInput" VALUE="Dallas">&nbsp;&nbsp; Units: <select
-            Name="units" id="units" autofocus>
+    <FORM NAME="cityWeatherForm" ACTION="" METHOD="POST" class='widget-text' >
+        Enter City to get weather information:&nbsp;&nbsp; <INPUT TYPE="text" class='widget-text'
+            NAME="cityInput" VALUE="Dallas">&nbsp;&nbsp; Units: 
+        <select
+            Name="units" id="units" autofocus class='widget-text'>
             <option value="metric">Celsius</option>
             <option value="imperial" selected>Fahrenheit</option>
-        </select>&nbsp;&nbsp; <INPUT TYPE="button" NAME="button" Value="Click"
+        </select>&nbsp;&nbsp; 
+        <INPUT TYPE="button" NAME="button" Value="Click"
             onClick="loadWeatherData(cityInput.value, units.options[units.selectedIndex].value)">
     </FORM>
-    <!--<div id="wtable"></div> -->
+    </section>
     <div id="dashboard">
   
     </div>

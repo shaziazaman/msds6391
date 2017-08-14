@@ -30,8 +30,8 @@ function loadWeatherData(cityName, unitSelected) {
 
 	d3.select("body").select("div#dashboard").select("svg").remove();
 	var svg = d3.select("body").select("div#dashboard").append("svg").attr('width',1170).attr('height',890)
-	.attr("transform","translate(50,50)")
-	.attr("class","widget1");
+	.attr("transform","translate(20,20)")
+	.attr("class","base-widget");
 	
 	var chart_svg = svg.append("g").attr("transform","translate(10,10)");
 	var monitor_svg = svg.append("g").attr("transform","translate(10,480)");
@@ -62,7 +62,6 @@ function loadWeatherData(cityName, unitSelected) {
 		weatherData.wind_speed = jsondata.wind.speed;
 		weatherData.wind_degree = jsondata.wind.deg;
 		console.log("weatherData",weatherData);
-// 		loadWeatherTable(weatherData);
 		loadWeatherTableSVG(weatherData, monitor_svg);
 		
     	loadThermometer(weatherData.temperature, weatherData.temp_min, weatherData.temp_max, units, chart_svg);

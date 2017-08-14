@@ -1,34 +1,14 @@
 @CHARSET "UTF-8";
-body {
-	padding-top: 60px;
-	padding-bottom: 40px;
-}
-header, footer {
-	width: 100%;
-	position: fixed;
-	background: #8080ff;
-	padding: 10px 0;
-	color: #400040;
-	display: block;
-}
-header{
-	top: 0;
-}
-footer{
-	bottom: 0;
-}
 section{
-	width: 80%;
-	margin: 0 auto;
+/* 	width: 80%;
+	margin: 0 auto; */
+	padding-left: 20px;
 }
-nav a{
-	color: #400040;
-	text-decoration: none;
-	padding: 7px 25px;
-	display: inline-block;
-}
+
 h3 {
 	color: #0000ff;
+	font-size: 18px;
+	font-weight: bold;
 	
 }
 
@@ -140,7 +120,7 @@ stroke-width: 5;
 opacity: 0.5;
 }
 
-.widget1 {
+.base-widget {
 background-color:#f2f2f2;
 }
 
@@ -152,6 +132,6 @@ background-color:#f2f2f2;
 
 .widget-text {
 	fill: black;
-	font-size: 16px;
+	font-size: 18px;
 }
 
