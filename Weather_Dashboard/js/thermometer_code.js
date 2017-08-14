@@ -9,8 +9,6 @@ var bottomY = height - 5,
     bulbRadius = 30,
     tubeWidth = 25.5,
     tubeBorderWidth = 1,
-    mercuryColor = "rgb(230,0,0)",
-    innerBulbColor = "rgb(230, 200, 200)"
     tubeBorderColor = "#999999";
 
 var bulb_cy = bottomY - bulbRadius,
@@ -93,6 +91,7 @@ svg.append("rect")
   .attr("y", top_cy)
   .attr("height", bulb_cy - top_cy)
   .attr("width", tubeWidth - tubeBorderWidth)
+//   .attr('class', 'mercury');
   .style("shape-rendering", "crispEdges")
   .style("fill", "#FFFFFF")
   .style("stroke", "none");
@@ -117,7 +116,6 @@ var scale = d3.scale.linear()
 
   var isMax = (t == maxTemp),
       label = (isMax ? "max" : "min"),
-      textCol = (isMax ? "rgb(230, 0, 0)" : "rgb(0, 0, 230)"),
       textOffset = (isMax ? -4 : 4);
 
   svg.append("line")
@@ -131,13 +129,12 @@ var scale = d3.scale.linear()
     .style("shape-rendering", "crispEdges");
 
   svg.append("text")
+    .attr('class', 'widget-text')
     .attr("x", width/2 + tubeWidth/2 + 2)
     .attr("y", scale(t) + textOffset)
     .attr("dy", isMax ? null : "0.75em")
     .text(label)
-    .style("fill", textCol)
-    .style("font-size", "11px")
-
+    .attr('class', function(){return isMax? "max" : "min";});
 });
 
 
@@ -150,8 +147,7 @@ svg.append("rect")
   .attr("y", tubeFill_top)
   .attr("width", tubeWidth - 10)
   .attr("height", tubeFill_bottom - tubeFill_top)
-  .style("shape-rendering", "crispEdges")
-  .style("fill", mercuryColor)
+  .attr('class', 'mercury');
 
 
 // Main thermometer bulb fill
@@ -159,9 +155,7 @@ svg.append("circle")
   .attr("r", bulbRadius - 6)
   .attr("cx", bulb_cx)
   .attr("cy", bulb_cy)
-  .style("fill", mercuryColor)
-  .style("stroke", mercuryColor)
-  .style("stroke-width", "2px");
+  .attr('class','mercury');
 
 
 // Values to use along the scale ticks up the thermometer
@@ -183,9 +177,7 @@ var svgAxis = svg.append("g")
   .call(axis);
 
 // Format text labels
-svgAxis.selectAll(".tick text")
-    .style("fill", "#777777")
-    .style("font-size", "10px");
+svgAxis.selectAll(".tick text");
 
 // Set main axis line to no stroke or fill
 svgAxis.select("path")

@@ -36,8 +36,8 @@ function generateAndLoadLineChart(data, dashboard_svg){
       .attr("width",w+120).attr("height", h+130)
       .attr("class","widget");
 
-    var textsvg = svg.append("text").attr("x",((w - 30)/2)).attr("y",25)
-    			.attr("class","widget-heading").text('Five Day Temperature Forecast');
+    var textsvg = svg.append("text").attr("x",((w - 300)/2)).attr("y",25)
+    			.attr("class","widget-heading").text('Five Day Temperature Forecast - Temperature vs. Data & Time');
 	    
 	    render(data2, dashboard_svg);
 
@@ -72,7 +72,7 @@ function render(data, dashboard_svg){
           .append("svg:g")
             .attr("transform", "translate(" + m.left + "," + m.right+ ")");
 
-      graph.append("text").style("font-size", "16px");
+      graph.append("text");
 	
 	  // get datatime labels for x-axis
 	  var x_labels = data.map(function(d) {return d.dt_txt.substring(5,13);});
@@ -111,31 +111,3 @@ function render(data, dashboard_svg){
 		
   }
 
-function loadForecastTable(data) {
-
-	// remove table before appending new table
-	d3.select("body").select("div#ftable").selectAll("table").remove();
-
-	// add new table
-	var table = d3.select("body").select("div#ftable").append("table");
-	
-	var thead = table.append("thead");
-	var tbody = table.append("tbody");
-
-	thead.append('tr')
-		  .selectAll('th')
-		  .data(['dt_txt','temp']).enter()
-		  .append('th')  
-		    .text(function (column) { return column; });
-	// create rows
-    var tr = tbody.selectAll("tr")
-    .data(data).enter().append("tr")
-
-     // creates cells
-   var td = tr.selectAll("td")
-  .data(function(d){return d3.values(d)})
-  .enter().append("td")
-  .text(function(d) {return d})
-   
- 
-}

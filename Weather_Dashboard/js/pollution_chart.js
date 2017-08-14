@@ -26,8 +26,8 @@ function generatePollutionChart(data, dashboard_svg){
       .attr("width",p_w+120).attr("height",p_h+130)
       .attr("class","widget");
 
-    svg.append("text").attr("x",((p_w - 30)/2)).attr("y",25)
-    			.attr("class","widget-heading").text('Air Pollution Chart');
+    svg.append("text").attr("x",((p_w - 120)/2)).attr("y",25)
+    			.attr("class","widget-heading").text('Air Pollution Chart - Pollution vs. Pressure');
 	   
 	render_bar(data2, svg);
 
@@ -43,7 +43,7 @@ function render_bar(data, dashboard_svg){
           .append("svg:g")
             .attr("transform", "translate(" + p_m.left + "," + p_m.right+ ")");
 
-      graph.append("text").style("font-size", "16px");
+      graph.append("text");
 
       var x = d3.scale.ordinal()
       			.domain(data.map(function(d){return d.pressure;}))
