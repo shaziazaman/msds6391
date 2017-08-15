@@ -111,16 +111,18 @@ function render(data, dashboard_svg){
 
       // adding axis titles
   	graph.append("text")
+  			.attr('class','tick-title')
             .attr("text-anchor", "left")  
             .attr("transform", "translate(-70,-10)")  
             .text("Temperature");
 
     graph.append("text")
+    		.attr('class','tick-title')
             .attr("text-anchor", "left")  
             .attr("transform", "translate(-40,130)")  
             .append('tspan').text("Date").attr('x',0).attr('y',0)
             .append('tspan').text(" & ").attr('x',5).attr('y',15)
-            .append('tspan').text("Hour").attr('x',0).attr('y',30)
+            .append('tspan').text("Hour").attr('x',0).attr('y',30);
 		
   }
 

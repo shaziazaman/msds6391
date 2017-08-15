@@ -27,7 +27,7 @@ function generatePollutionChart(data, dashboard_svg){
       .attr("class","widget");
 
     svg.append("text").attr("x",((p_w - 120)/2)).attr("y",25)
-    			.attr("class","widget-heading").text('Air Pollution vs. Pressure');
+    			.attr("class","widget-heading").text('Air Pollution');
 	   
 	render_bar(data2, svg);
 
@@ -92,11 +92,13 @@ function render_bar(data, dashboard_svg){
 
 	// adding axis titles
   	graph.append("text")
+  			.attr('class','tick-title')
             .attr("text-anchor", "left")  
             .attr("transform", "translate(-70,-10)")  
-            .text("Pollution");
+            .text("CO Level");
 
     graph.append("text")
+    		.attr('class','tick-title')
             .attr("text-anchor", "left")  
             .attr("transform", "translate(-50,150)")  
             .text("Pressure");

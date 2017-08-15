@@ -25,6 +25,11 @@ h3 {
 	stroke: black;
 }
 
+.tick-title {
+	fill: #0000ff;
+	font-size: 16px;	
+}
+
 path {
   stroke: steelblue;
   stroke-width: 2;
