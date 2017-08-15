@@ -108,6 +108,19 @@ function render(data, dashboard_svg){
         // Add the line by appending an svg:path element with the data line we created above
       // do this AFTER the axes above so that the line is above the tick-lines
       graph.append("svg:path").attr("d", line(data));
+
+      // adding axis titles
+  	graph.append("text")
+            .attr("text-anchor", "left")  
+            .attr("transform", "translate(-70,-10)")  
+            .text("Temperature");
+
+    graph.append("text")
+            .attr("text-anchor", "left")  
+            .attr("transform", "translate(-40,130)")  
+            .append('tspan').text("Date").attr('x',0).attr('y',0)
+            .append('tspan').text(" & ").attr('x',5).attr('y',15)
+            .append('tspan').text("Hour").attr('x',0).attr('y',30)
 		
   }
 

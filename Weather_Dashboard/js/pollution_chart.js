@@ -90,5 +90,16 @@ function render_bar(data, dashboard_svg){
   		.attr("y", function(d) { return y(Math.max(0, d.value)); })
   		.attr("height", function(d) { return Math.abs(y(d.value) - y(0)) });
 
+	// adding axis titles
+  	graph.append("text")
+            .attr("text-anchor", "left")  
+            .attr("transform", "translate(-70,-10)")  
+            .text("Pollution");
+
+    graph.append("text")
+            .attr("text-anchor", "left")  
+            .attr("transform", "translate(-50,150)")  
+            .text("Pressure");
+
 }
 
